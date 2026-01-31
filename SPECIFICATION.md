@@ -6,6 +6,69 @@
 
 ---
 
+## 🌐 Typ aplikácie: Webová aplikácia
+
+**IS-Assistant** je **webová aplikácia**, ktorá beží v prehliadači. Užívateľ sa pripojí cez prehliadač (Chrome, Firefox, Edge) a používa aplikáciu bez nutnosti inštalácie.
+
+### Webové technológie:
+
+#### Backend (Server):
+- **Python 3.9+ s Flask** - Webový framework pre vytvorenie REST API
+- **SQLite** - Lokálna databáza (možnosť prechodu na PostgreSQL)
+- **Flask-CORS** - Podpora pre CORS (Cross-Origin requests)
+- **OpenAI API / Local LLM** - AI integrácia
+
+#### Frontend (Klient):
+- **HTML5** - Štruktúra stránky
+- **CSS3 / Tailwind CSS** - Štýlovanie a responsive design
+- **JavaScript (Vanilla alebo React)** - Interaktívne rozhranie
+- **Fetch API** - Komunikácia s backendom
+
+#### Architektúra:
+```
+[Prehliadač] <-- HTTP/JSON --> [Flask API Server] <-- SQL --> [SQLite DB]
+                                      |
+                                      v
+                                 [AI Service]
+```
+
+### Ako to funguje:
+
+1. **Užívateľ otvori prehliadač:**
+   - Zadanie URL: `http://localhost:5000` (lokálne) alebo `https://is-assistant.sk` (production)
+   - Prehliadač stiahne HTML/CSS/JS súbory
+
+2. **Frontend zobrazí rozhranie:**
+   - Stromová štruktúra modulov (vpravo)
+   - AI chat rozhranie (vpravo)
+   - Formáre na pridanie/úpravu modulov
+
+3. **Užívateľ interaguje:**
+   - Kliknutie na modul → JavaScript pošle požiadavku na server
+   - Otázka pre AI → JavaScript pošle JSON na `/api/ask`
+
+4. **Backend spracúva:**
+   - Flask prijíme požiadavku
+   - Načíta dáta z SQLite databázy
+   - Zavolá AI API (ak je potrebné)
+   - Vráti JSON odpoveď
+
+5. **Frontend zobrazí výsledok:**
+   - JavaScript prijíme odpoveď
+   - Aktualizuje DOM (stránku)
+   - Užívateľ vidí výsledok
+
+### Výhody webovej aplikácie:
+
+✅ **Žiadna inštalácia** - stačí prehliadač
+✅ **Multiplatformová** - funguje na Windows, Mac, Linux
+✅ **Jednoduchá aktualizacia** - iba obnoviť stránku
+✅ **Responzívny dizajn** - funguje aj na mobile/tablete
+✅ **Možnosť hostingu** - jednoduchý deployment na server
+
+---
+
+
 ## 📋 Funkčný popis - Fáza 1: AI Poradca
 
 ### Hlavné komponenty:
