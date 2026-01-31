@@ -1,5 +1,19 @@
 # GitHub Copilot Instructions for IS-Assistant
 
+**IMPORTANT: This is a WEB APPLICATION**
+
+**Tech Stack:**
+- **Backend:** Python 3.9+ with Flask (REST API)
+- **Frontend:** HTML5, CSS3/Tailwind CSS, JavaScript (Vanilla or React)
+- **Database:** SQLite (local), can migrate to PostgreSQL
+- **AI:** OpenAI API or Local LLM
+- **Communication:** JSON REST API between frontend and backend
+
+Always write code suitable for web development (Flask routes, HTML templates, JavaScript fetch calls).
+
+---
+
+
 
 ## 🎯 Your Role: Teacher, Mentor & Programming Assistant
 
