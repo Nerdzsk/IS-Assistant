@@ -9,6 +9,38 @@ Vytvoriť inteligentného asistenta pre správu a prácu s informačnými systé
 - Spravovať zákazníkov a ich HW špecifikácie
 - Poskytovať inteligentné návody a podporu
 
+## 🆕 Aktuálny stav (Február 2026)
+
+### ✅ Implementované funkcie:
+- **Web aplikácia** - Flask server s moderným UI
+- **Správa zákazníkov** - pridávanie, editácia, zobrazenie zákazníkov
+- **AI Chat** - integrácia s Groq API (Llama model)
+- **Wiki** - dokumentácia a návody
+- **Hlasové nahrávanie** - Web Speech API pre prevod reči na text
+- **AI parsovanie** - automatické rozpoznanie údajov zo súhrnu (firmy, pobočky, kontakty)
+- **Google Maps integrácia** - zobrazenie adries pobočiek na mape
+- **Formulár nového zákazníka** - s hlasovým vstupom a AI asistenciou
+
+### 🚀 Spustenie aplikácie
+
+```bash
+# 1. Aktivuj virtuálne prostredie
+.venv\Scripts\activate
+
+# 2. Spusti aplikáciu
+python webapp.py
+
+# 3. Otvor v prehliadači
+http://localhost:5000
+```
+
+### 📱 Dostupné stránky:
+- `/` - Hlavná stránka (dashboard)
+- `/new-customer` - Pridanie nového zákazníka
+- `/customers` - Zoznam zákazníkov
+- `/ai-chat` - AI asistent (chat)
+- `/wiki` - Wiki dokumentácia
+
 ## 📋 Hlavné funkcionality
 
 ### 1. Správa špecifikácií IS
