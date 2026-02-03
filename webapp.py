@@ -373,11 +373,96 @@ WIKI_HTML = '''
             padding-left: 20px;
             border-left: 2px dashed #c5c5c5;
         }
+        .submodules-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+        .submodules-header:hover {
+            background: #e0e0e0;
+        }
+        .toggle-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        .toggle-btn.collapsed {
+            transform: rotate(0deg);
+        }
+        .toggle-btn.expanded {
+            transform: rotate(45deg);
+        }
+        .submodules-content {
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .submodules-content.collapsed {
+            max-height: 0;
+        }
+        .submodules-content.expanded {
+            max-height: 5000px;
+        }
+        .submodule-item {
+            margin-bottom: 5px;
+        }
+        .submodule-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #764ba2;
+            transition: all 0.3s;
+            border-left: 3px solid #764ba2;
+        }
+        .submodule-name:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            transform: translateX(5px);
+        }
+        .submodule-arrow {
+            font-size: 0.8em;
+            transition: transform 0.3s;
+            color: #667eea;
+        }
+        .submodule-arrow.expanded {
+            transform: rotate(90deg);
+        }
+        .submodule-detail {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s;
+        }
+        .submodule-detail.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        .submodule-detail.expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
         .submodule-card {
             background: #ffffff;
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 12px;
+            margin: 10px 0 12px 25px;
             border-left: 4px solid #764ba2;
         }
         .relationships {
@@ -507,27 +592,75 @@ WIKI_HTML = '''
         .nav-link:hover {
             color: #764ba2;
         }
+        .modules-list {
+            margin-top: 20px;
+        }
+        .module-item {
+            margin-bottom: 8px;
+        }
+        .module-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(102,126,234,0.3);
+        }
+        .module-name:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        .module-arrow {
+            font-size: 0.9em;
+            transition: transform 0.3s;
+        }
+        .module-arrow.expanded {
+            transform: rotate(90deg);
+        }
+        .module-icon {
+            font-size: 1.3em;
+        }
+        .module-title-text {
+            flex: 1;
+        }
+        .module-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .module-detail {
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s;
+        }
+        .module-detail.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        .module-detail.expanded {
+            max-height: 10000px;
+            opacity: 1;
+        }
         .module-card {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 15px;
             padding: 25px;
-            margin-bottom: 25px;
+            margin: 10px 0 15px 20px;
             border-left: 5px solid #667eea;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         .module-header {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-bottom: 15px;
-        }
-        .module-icon {
-            font-size: 2em;
         }
         .module-title {
             flex: 1;
@@ -640,29 +773,34 @@ WIKI_HTML = '''
         </div>
 
         {% if modules %}
+            <div class="modules-list">
             {% for module in modules %}
-            <div class="module-card">
-                <div class="module-header">
-                    <div class="module-icon">📦</div>
-                    <div class="module-title">
-                        <h2>{{ module.name }}</h2>
-                    </div>
+            <div class="module-item">
+                <div class="module-name" onclick="toggleModuleDetail(this, 'module_{{ module.id }}')">
+                    <span class="module-arrow">▶</span>
+                    <span class="module-icon">📦</span>
+                    <span class="module-title-text">{{ module.name }}</span>
+                    {% if module.submodules %}
+                    <span class="module-badge">{{ module.submodules|length }} podmodulov</span>
+                    {% endif %}
                 </div>
-                <div class="module-description">
-                    {{ module.description }}
-                </div>
-                <div class="admin-card" style="margin-left: 50px;">
-                    <h3>✏️ Upraviť modul</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="update_module">
-                        <input type="hidden" name="module_id" value="{{ module.id }}">
-                        <label>Názov</label>
-                        <input name="name" value="{{ module.name }}" required>
-                        <label>Popis</label>
-                        <textarea name="description" rows="3">{{ module.description }}</textarea>
-                        <button type="submit">Uložiť zmeny</button>
-                    </form>
-                </div>
+                <div class="module-detail collapsed" id="module_{{ module.id }}">
+                    <div class="module-card">
+                        <div class="module-description">
+                            {{ module.description }}
+                        </div>
+                        <div class="admin-card" style="margin-left: 50px;">
+                            <h3>✏️ Upraviť modul</h3>
+                            <form method="post">
+                                <input type="hidden" name="action" value="update_module">
+                                <input type="hidden" name="module_id" value="{{ module.id }}">
+                                <label>Názov</label>
+                                <input name="name" value="{{ module.name }}" required>
+                                <label>Popis</label>
+                                <textarea name="description" rows="3">{{ module.description }}</textarea>
+                                <button type="submit">Uložiť zmeny</button>
+                            </form>
+                        </div>
                 {% if module.functionalities %}
                 <div class="functionalities">
                     <h3>⚙️ Funkcionality ({{ module.functionalities|length }})</h3>
@@ -689,51 +827,134 @@ WIKI_HTML = '''
                 {% endif %}
                 {% if module.submodules %}
                 <div class="submodules">
-                    <h3>🧩 Podmoduly ({{ module.submodules|length }})</h3>
+                    <div class="submodules-header" onclick="toggleSubmodules(this, 'submodules_{{ module.id }}')">
+                        <button type="button" class="toggle-btn collapsed" id="btn_{{ module.id }}">+</button>
+                        <h3 style="margin: 0;">🧩 Podmoduly ({{ module.submodules|length }})</h3>
+                    </div>
+                    <div class="submodules-content collapsed" id="submodules_{{ module.id }}">
                     {% for sub in module.submodules %}
-                    <div class="submodule-card">
-                        <div class="module-header">
-                            <div class="module-icon">🧩</div>
-                            <div class="module-title">
-                                <h2>{{ sub.name }}</h2>
+                    <div class="submodule-item">
+                        <div class="submodule-name" onclick="toggleSubmoduleDetail(this, 'subdetail_{{ sub.id }}')">
+                            <span class="submodule-arrow">▶</span>
+                            <span>🧩 {{ sub.name }}</span>
+                        </div>
+                        <div class="submodule-detail collapsed" id="subdetail_{{ sub.id }}">
+                            <div class="submodule-card">
+                                <div class="module-description">{{ sub.description }}</div>
+                                <div class="admin-card">
+                                    <h3>✏️ Upraviť podmodul</h3>
+                                    <form method="post">
+                                        <input type="hidden" name="action" value="update_module">
+                                        <input type="hidden" name="module_id" value="{{ sub.id }}">
+                                        <label>Názov</label>
+                                        <input name="name" value="{{ sub.name }}" required>
+                                        <label>Popis</label>
+                                        <textarea name="description" rows="3">{{ sub.description }}</textarea>
+                                        <button type="submit">Uložiť zmeny</button>
+                                    </form>
+                                </div>
+                                {% if sub.functionalities %}
+                                <div class="functionalities">
+                                    <h3>⚙️ Funkcionality ({{ sub.functionalities|length }})</h3>
+                                    {% for func in sub.functionalities %}
+                                    <div class="functionality-item">
+                                        <div class="functionality-name">{{ func.name }}</div>
+                                        <div class="functionality-description">{{ func.description }}</div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="module-description">{{ sub.description }}</div>
-                        <div class="admin-card">
-                            <h3>✏️ Upraviť podmodul</h3>
-                            <form method="post">
-                                <input type="hidden" name="action" value="update_module">
-                                <input type="hidden" name="module_id" value="{{ sub.id }}">
-                                <label>Názov</label>
-                                <input name="name" value="{{ sub.name }}" required>
-                                <label>Popis</label>
-                                <textarea name="description" rows="3">{{ sub.description }}</textarea>
-                                <button type="submit">Uložiť zmeny</button>
-                            </form>
-                        </div>
-                        {% if sub.functionalities %}
-                        <div class="functionalities">
-                            <h3>⚙️ Funkcionality ({{ sub.functionalities|length }})</h3>
-                            {% for func in sub.functionalities %}
-                            <div class="functionality-item">
-                                <div class="functionality-name">{{ func.name }}</div>
-                                <div class="functionality-description">{{ func.description }}</div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
                     </div>
                     {% endfor %}
+                    </div>
                 </div>
                 {% endif %}
+                    </div>
+                </div>
             </div>
             {% endfor %}
+            </div>
         {% else %}
             <div class="no-data">
                 Žiadne moduly v databáze.
             </div>
         {% endif %}
     </div>
+    <script>
+        function toggleModuleDetail(nameEl, detailId) {
+            const detail = document.getElementById(detailId);
+            const arrow = nameEl.querySelector('.module-arrow');
+            
+            if (detail.classList.contains('collapsed')) {
+                detail.classList.remove('collapsed');
+                detail.classList.add('expanded');
+                arrow.classList.add('expanded');
+                arrow.textContent = '▼';
+            } else {
+                detail.classList.remove('expanded');
+                detail.classList.add('collapsed');
+                arrow.classList.remove('expanded');
+                arrow.textContent = '▶';
+            }
+        }
+        
+        function toggleSubmodules(header, contentId) {
+            const content = document.getElementById(contentId);
+            const btn = header.querySelector('.toggle-btn');
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                btn.classList.remove('collapsed');
+                btn.classList.add('expanded');
+                btn.textContent = '−';
+            } else {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                btn.classList.remove('expanded');
+                btn.classList.add('collapsed');
+                btn.textContent = '+';
+            }
+        }
+        
+        function toggleSubmoduleDetail(nameEl, detailId) {
+            const detail = document.getElementById(detailId);
+            const arrow = nameEl.querySelector('.submodule-arrow');
+            
+            // Zatvor ostatne otvorene podmoduly v rovnakom module
+            const parent = nameEl.closest('.submodules-content');
+            const allDetails = parent.querySelectorAll('.submodule-detail.expanded');
+            const allArrows = parent.querySelectorAll('.submodule-arrow.expanded');
+            
+            allDetails.forEach(d => {
+                if (d.id !== detailId) {
+                    d.classList.remove('expanded');
+                    d.classList.add('collapsed');
+                }
+            });
+            allArrows.forEach(a => {
+                if (a !== arrow) {
+                    a.classList.remove('expanded');
+                    a.textContent = '▶';
+                }
+            });
+            
+            // Toggle aktualny
+            if (detail.classList.contains('collapsed')) {
+                detail.classList.remove('collapsed');
+                detail.classList.add('expanded');
+                arrow.classList.add('expanded');
+                arrow.textContent = '▼';
+            } else {
+                detail.classList.remove('expanded');
+                detail.classList.add('collapsed');
+                arrow.classList.remove('expanded');
+                arrow.textContent = '▶';
+            }
+        }
+    </script>
 </body>
 </html>
 '''
@@ -963,7 +1184,7 @@ NEW_CUSTOMER_HTML = '''
                 </div>
                 <div class="form-group">
                     <label>Email *</label>
-                    <input type="email" name="email" required placeholder="jan.novak@firma.sk">
+                    <input type="email" name="email" placeholder="jan.novak@firma.sk">
                 </div>
                 <div class="form-group">
                     <label>Telefón</label>
@@ -979,11 +1200,11 @@ NEW_CUSTOMER_HTML = '''
                         <h4>🏢 Firma č. 1</h4>
                         <div class="form-group">
                             <label>Názov firmy *</label>
-                            <input type="text" name="company_name_0" required placeholder="Napr. ABC s.r.o.">
+                            <input type="text" name="company_name_0" placeholder="Napr. ABC s.r.o.">
                         </div>
                         <div class="form-group">
                             <label>IČO (identifikačné číslo) *</label>
-                            <input type="text" name="company_ico_0" required placeholder="Napr. 12345678">
+                            <input type="text" name="company_ico_0" placeholder="Napr. 12345678">
                         </div>
                     </div>
                 </div>
@@ -999,11 +1220,11 @@ NEW_CUSTOMER_HTML = '''
                         <h4>📍 Pobočka č. 1</h4>
                         <div class="form-group">
                             <label>Názov pobočky *</label>
-                            <input type="text" name="branch_name_0" required placeholder="Napr. Reštaurácia Centrum">
+                            <input type="text" name="branch_name_0" placeholder="Napr. Reštaurácia Centrum">
                         </div>
                         <div class="form-group">
                             <label>Adresa *</label>
-                            <input type="text" name="branch_address_0" required placeholder="Napr. Hlavná 123, Bratislava">
+                            <input type="text" name="branch_address_0" placeholder="Napr. Hlavná 123, Bratislava">
                         </div>
                         <div class="form-group">
                             <label>Typ podnikania na tejto pobočke (môžete zvoliť viac) *</label>
@@ -1188,11 +1409,11 @@ NEW_CUSTOMER_HTML = '''
                 '<h4>Firma c. ' + (companyCount + 1) + '</h4>' +
                 '<div class="form-group">' +
                 '<label>Nazov firmy *</label>' +
-                '<input type="text" name="company_name_' + companyCount + '" required placeholder="Napr. ABC s.r.o.">' +
+                '<input type="text" name="company_name_' + companyCount + '" placeholder="Napr. ABC s.r.o.">' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<label>ICO (identifikacne cislo) *</label>' +
-                '<input type="text" name="company_ico_' + companyCount + '" required placeholder="Napr. 12345678">' +
+                '<input type="text" name="company_ico_' + companyCount + '" placeholder="Napr. 12345678">' +
                 '</div>';
             newCompanyBox.innerHTML = html;
             container.appendChild(newCompanyBox);
@@ -1218,11 +1439,11 @@ NEW_CUSTOMER_HTML = '''
                 '<h4>Pobocka c. ' + (branchCount + 1) + '</h4>' +
                 '<div class="form-group">' +
                 '<label>Nazov pobocky *</label>' +
-                '<input type="text" name="branch_name_' + branchCount + '" required placeholder="Napr. Restauracia Centrum">' +
+                '<input type="text" name="branch_name_' + branchCount + '" placeholder="Napr. Restauracia Centrum">' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<label>Adresa *</label>' +
-                '<input type="text" name="branch_address_' + branchCount + '" required placeholder="Napr. Hlavna 123, Bratislava">' +
+                '<input type="text" name="branch_address_' + branchCount + '" placeholder="Napr. Hlavna 123, Bratislava">' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<label>Typ podnikania na tejto pobocke (mozete zvolit viac) *</label>' +
@@ -1348,7 +1569,7 @@ NEW_CUSTOMER_HTML = '''
                     // Google Maps - len ak je adresa
                     if (hasAddress) {
                         content += '<div id="map_container_' + idx + '" style="margin: 10px 0; border-radius: 8px; overflow: hidden; border: 2px solid #ddd;">';
-                        content += '<iframe id="map_frame_' + idx + '" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + addressEncoded + '&output=embed&z=15"></iframe>';
+                        content += '<iframe id="map_frame_' + idx + '" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + addressEncoded + '&markers=color:red%7C' + addressEncoded + '&output=embed&z=15"></iframe>';
                         content += '</div>';
                     } else {
                         content += '<div id="map_container_' + idx + '" style="display: none; margin: 10px 0; border-radius: 8px; overflow: hidden; border: 2px solid #ddd;">';
@@ -1391,7 +1612,7 @@ NEW_CUSTOMER_HTML = '''
             
             if (address && address.trim().length > 0) {
                 const addressEncoded = encodeURIComponent(address);
-                mapFrame.src = 'https://maps.google.com/maps?q=' + addressEncoded + '&output=embed&z=15';
+                mapFrame.src = 'https://maps.google.com/maps?q=' + addressEncoded + '&markers=color:red%7C' + addressEncoded + '&output=embed&z=15';
                 mapContainer.style.display = 'block';
             } else {
                 mapContainer.style.display = 'none';
