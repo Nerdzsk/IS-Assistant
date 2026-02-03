@@ -33,6 +33,15 @@ IS-Assistant poskytuje REST API pre integráciu s inými systémami. Všetky odp
 | GET | `/customers` | Zoznam zákazníkov |
 | GET | `/ai-chat` | AI Chat rozhranie |
 | GET | `/wiki` | Wiki dokumentácia |
+| GET | `/service` | Zoznam servisných prípadov s vyhľadávaním |
+| GET | `/service/<id>` | Detail servisného prípadu s vetvením |
+| POST | `/service/add` | Pridať nový servisný prípad |
+| POST | `/service/<id>/add-step` | Pridať krok (vrátane vetvy) |
+| POST | `/service/<id>/add-decision` | Pridať rozhodnutie s vetvami |
+| POST | `/service/<id>/add-branch` | Pridať novú vetvu |
+| POST | `/service/<id>/add-complication` | Pridať komplikáciu |
+| POST | `/service/<id>/edit-step/<step_id>` | Upraviť existujúci krok |
+| POST | `/service/<id>/delete-step/<step_id>` | Vymazať krok |
 
 ---
 
@@ -208,6 +217,13 @@ API konfigurácia sa nachádza v `config/settings.json`:
 ---
 
 ## Changelog
+
+### v1.1 (Február 2026)
+- SERVIS sekcia s prípadovými štúdiami
+- Vetvenie postupov (rozhodnutia s možnosťami)
+- Vyhľadávanie v prípadových štúdiách
+- Editácia a mazanie krokov
+- Wiki s kolapsibilnou štruktúrou
 
 ### v1.0 (Február 2026)
 - Základné API endpointy

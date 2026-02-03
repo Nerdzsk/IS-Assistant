@@ -116,21 +116,51 @@ You are working on **IS-Assistant**, an AI-powered tool for Information System m
 
 ## Core Technologies
 - **Language:** Python 3.9+
+- **Web Framework:** Flask 3.x
 - **Database:** SQLite (local storage)
-- **AI Integration:** OpenAI API or Local LLM
+- **AI Integration:** Groq API (Llama model) or Local LLM
+- **Voice Input:** Web Speech API
+- **Maps:** Google Maps Embed
 - **Data Formats:** JSON, CSV, XML
 
 ## Project Structure
 Always maintain this structure:
 ```
 IS-Assistant/
-├── database/              # Database files and schemas
+├── database/              # Database files (is_data.db)
 ├── modules/               # Core Python modules
-├── training/              # Training materials
-├── config/                # Configuration files
 ├── docs/                  # Documentation
-└── main.py                # Entry point
+├── uploads/               # Uploaded images (SERVIS)
+├── webapp.py              # Main Flask application
+└── .env                   # Environment variables (API keys)
 ```
+
+## Main Sections of the Application
+
+### 1. Dashboard (`/`)
+- Overview of customers, modules, functionalities
+
+### 2. Customers (`/customers`, `/new-customer`)
+- Customer onboarding with voice recording
+- AI parsing of meeting notes
+- HW specifications, locations with map markers
+
+### 3. Wiki (`/wiki`)
+- 3-level hierarchical documentation
+- Collapsible structure
+
+### 4. AI Chat (`/ai-chat`)
+- Context-aware chat using Groq API
+- Database knowledge integration
+
+### 5. SERVIS (`/service`)
+- Technical case studies with step-by-step guides
+- **Branching/Decisions:** Support for decision points with multiple branches
+- **Sub-branches:** Nested decisions within branches
+- **Independent numbering:** Each branch starts numbering from 1
+- **Complications:** Assignable to specific branch or general
+- **Full-text search:** Across all case studies
+- **Edit/Delete:** Modify or remove steps
 
 ## Coding Standards
 
@@ -187,6 +217,14 @@ def get_specification(spec_id: int) -> dict:
 2. Include HW specifications as JSON fields
 3. Track all interactions and changes
 4. Support export to multiple formats
+
+### When Creating SERVIS (Case Studies):
+1. Each case has steps with automatic numbering
+2. Support branching for decision points
+3. Each branch has its own numbering starting from 1
+4. Complications can be general or branch-specific
+5. Support image uploads for visual steps
+6. Implement full-text search across all cases
 
 ## Code Examples
 

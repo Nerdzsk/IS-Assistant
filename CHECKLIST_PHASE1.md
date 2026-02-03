@@ -16,6 +16,7 @@ Tento checklist slúži na sledovanie pokroku v základnej implementácii podľa
     - [x] Pripraviť a otestovať SQL schému v database/schema.sql
     - [x] Implementovať inicializačný skript (init_db.py)
     - [x] Pridať tabuľku pre zákazníkov (customers)
+    - [x] Pridať tabuľky pre SERVIS (service_cases, service_steps, service_complications, service_branches)
 
 - [x] **Základné Python moduly**
     - [x] Vytvoriť triedy a CRUD operácie pre moduly, podmoduly, funkcionality (modules/)
@@ -28,7 +29,8 @@ Tento checklist slúži na sledovanie pokroku v základnej implementácii podľa
     - [x] Formulár nového zákazníka
     - [x] Zoznam zákazníkov
     - [x] AI Chat rozhranie
-    - [x] Wiki stránka
+    - [x] Wiki stránka s kolapsibilnou štruktúrou (3 úrovne)
+    - [x] SERVIS sekcia s prípadovými štúdiami
 
 - [x] **AI poradca**
     - [x] Integrácia s Groq API (Llama model)
@@ -43,6 +45,16 @@ Tento checklist slúži na sledovanie pokroku v základnej implementácii podľa
 - [x] **Mapy a geolokácia**
     - [x] Google Maps embed pre adresy pobočiek
     - [x] Dynamická aktualizácia mapy pri zmene adresy
+    - [x] Markery pre všetky pobočky
+
+- [x] **SERVIS sekcia (NOVÉ)**
+    - [x] Prípadové štúdie s krokmi a obrázkami
+    - [x] Vetvenie postupov (rozhodnutia s možnosťami)
+    - [x] Hierarchické vetvy (sub-vetvy)
+    - [x] Automatické číslovanie podľa vetvy
+    - [x] Komplikácie (všeobecné aj pre konkrétnu vetvu)
+    - [x] Vyhľadávanie v prípadových štúdiách
+    - [x] Editácia a mazanie krokov/rozhodnutí
 
 ## 🔄 V procese
 

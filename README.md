@@ -8,6 +8,7 @@ Vytvoriť inteligentného asistenta pre správu a prácu s informačnými systé
 - Poskytovať personalizované školenia pomocou AI
 - Spravovať zákazníkov a ich HW špecifikácie
 - Poskytovať inteligentné návody a podporu
+- **Dokumentovať servisné postupy s vetvením**
 
 ## 🆕 Aktuálny stav (Február 2026)
 
@@ -15,11 +16,19 @@ Vytvoriť inteligentného asistenta pre správu a prácu s informačnými systé
 - **Web aplikácia** - Flask server s moderným UI
 - **Správa zákazníkov** - pridávanie, editácia, zobrazenie zákazníkov
 - **AI Chat** - integrácia s Groq API (Llama model)
-- **Wiki** - dokumentácia a návody
+- **Wiki** - dokumentácia modulov s 3-úrovňovou hierarchiou (moduly → submoduly → detaily)
 - **Hlasové nahrávanie** - Web Speech API pre prevod reči na text
 - **AI parsovanie** - automatické rozpoznanie údajov zo súhrnu (firmy, pobočky, kontakty)
-- **Google Maps integrácia** - zobrazenie adries pobočiek na mape
+- **Google Maps integrácia** - zobrazenie adries pobočiek na mape s markermi
 - **Formulár nového zákazníka** - s hlasovým vstupom a AI asistenciou
+
+### 🔧 SERVIS sekcia (NOVÉ!)
+- **Prípadové štúdie** - dokumentácia technických riešení
+- **Vetvenie postupov** - rozhodnutia s viacerými možnosťami (napr. typ eKasy)
+- **Vlastné číslovanie** - každá vetva má číslovanie od 1
+- **Komplikácie** - všeobecné alebo špecifické pre vetvu
+- **Vyhľadávanie** - fulltextové hľadanie vo všetkých údajoch
+- **Editácia a mazanie** - úprava/zmazanie krokov a rozhodnutí
 
 ### 🚀 Spustenie aplikácie
 
@@ -39,7 +48,8 @@ http://localhost:5000
 - `/new-customer` - Pridanie nového zákazníka
 - `/customers` - Zoznam zákazníkov
 - `/ai-chat` - AI asistent (chat)
-- `/wiki` - Wiki dokumentácia
+- `/wiki` - Wiki dokumentácia (kolapsibilné moduly)
+- `/service` - **SERVIS** - prípadové štúdie a návody
 
 ## 📋 Hlavné funkcionality
 

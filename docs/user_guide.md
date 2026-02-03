@@ -171,12 +171,65 @@ AI dokáže automaticky rozpoznať:
 
 ## Wiki
 
-Wiki obsahuje dokumentáciu a návody pre prácu s IS-Assistant.
+Wiki obsahuje dokumentáciu modulov IS s 3-úrovňovou hierarchiou.
 
-### Sekcie:
-- Návody pre používateľov
-- Technická dokumentácia
-- FAQ
+### Štruktúra:
+- **Moduly** - hlavné časti IS (kliknutím rozbalíš)
+- **Submoduly** - zoznam funkcií modulu (kliknutím zobrazíš detail)
+- **Detaily** - popis funkcionality
+
+### Navigácia:
+- Klikni na [+] pre rozbalenie modulu
+- Klikni na [-] pre zbalenie
+- Submoduly sa zobrazujú pod rodičovským modulom
+
+---
+
+## SERVIS (NOVÉ!)
+
+Sekcia pre dokumentáciu technických postupov a riešení.
+
+### Ako používať:
+
+1. Prejdi na `/service`
+2. Vytvor novú prípadovú štúdiu (napr. "Inštalácia certifikátov VAROS")
+3. Pridaj kroky postupu
+
+### Vetvenie:
+
+Ak postup závisí od typu zariadenia (napr. eKasa VAROS vs CHDU):
+
+1. Pridaj **Rozhodnutie** (napr. "Aký typ eKasy?")
+2. K rozhodnutiu pridaj **Možnosti** (VAROS, CHDU, Efox...)
+3. Každá vetva môže mať vlastné kroky s číslovaním od 1
+
+### Hierarchia vetiev:
+
+```
+1. Aký typ eKasy? [ROZHODNUTIE]
+   ├─ VAROS (zelená)
+   │   1. Otvorte nastavenia
+   │   2. Má NFC? [ROZHODNUTIE]
+   │      ├─ S NFC (modrá)
+   │      │   1. Aktivujte NFC
+   │      └─ Bez NFC (červená)
+   │          1. Pripojte USB
+   └─ CHDU (modrá)
+       1. Iný postup...
+```
+
+### Komplikácie:
+- Pridaj možné problémy a ich riešenia
+- Môžu byť všeobecné alebo špecifické pre vetvu
+
+### Vyhľadávanie:
+- Zadaj kľúčové slovo (napr. "VAROS", "certifikát")
+- Hľadá v názvoch, popisoch, krokoch, komplikáciách aj vetvách
+
+### Editácia a mazanie:
+- Pri každom kroku sú tlačidlá ✏️ (editovať) a 🗑️ (zmazať)
+- Editácia otvorí modal s formulárom
+- Mazanie vyžaduje potvrdenie
 
 ---
 

@@ -106,6 +106,58 @@ CREATE TABLE ai_conversations (
     context_modules TEXT,  -- JSON zoznam relevantných modulov
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ==============================================
+-- SERVIS - Technické prípadové štúdie
+-- ==============================================
+
+-- Tabuľka: Servisné prípady (case studies)
+CREATE TABLE service_cases (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    category TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabuľka: Kroky v servisnom prípade
+CREATE TABLE service_steps (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    case_id INTEGER NOT NULL,
+    step_number INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    image_path TEXT,          -- Cesta k obrázku
+    branch_id INTEGER,        -- NULL = hlavná vetva, inak ID vetvy
+    is_decision INTEGER DEFAULT 0,  -- 1 = rozhodovací bod
+    FOREIGN KEY (case_id) REFERENCES service_cases(id) ON DELETE CASCADE,
+    FOREIGN KEY (branch_id) REFERENCES service_branches(id) ON DELETE CASCADE
+);
+
+-- Tabuľka: Vetvy (pre rozhodnutia)
+CREATE TABLE service_branches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    case_id INTEGER NOT NULL,
+    parent_step_id INTEGER NOT NULL,  -- ID rozhodovacieho kroku
+    branch_name TEXT NOT NULL,        -- Napr. "Áno", "Nie"
+    branch_color TEXT DEFAULT '#6c757d',  -- Farba vetvy
+    display_order INTEGER DEFAULT 0,
+    FOREIGN KEY (case_id) REFERENCES service_cases(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_step_id) REFERENCES service_steps(id) ON DELETE CASCADE
+);
+
+-- Tabuľka: Komplikácie
+CREATE TABLE service_complications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    case_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    solution TEXT,
+    branch_id INTEGER,  -- NULL = všeobecná, inak pre konkrétnu vetvu
+    FOREIGN KEY (case_id) REFERENCES service_cases(id) ON DELETE CASCADE,
+    FOREIGN KEY (branch_id) REFERENCES service_branches(id) ON DELETE CASCADE
+);
 ```
 
 ---
