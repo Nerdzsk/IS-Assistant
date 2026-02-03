@@ -132,6 +132,7 @@ HTML = '''
         <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
         <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
         <a href="/service" class="nav-link">🔧 Servis →</a>
+        <a href="/training" class="nav-link">🎓 Školenia →</a>
         {% if vysledok %}
         <div class="result">
             <h2>Výsledok:</h2>
@@ -273,6 +274,7 @@ AI_CHAT_HTML = '''
         <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
         <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
         <a href="/service" class="nav-link">🔧 Servis →</a>
+        <a href="/training" class="nav-link">🎓 Školenia →</a>
         {% if odpoved %}
         <div class="answer-box">
             <h2><span class="icon">🤖</span> Odpoveď AI:</h2>
@@ -759,6 +761,7 @@ WIKI_HTML = '''
             <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
             <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
             <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
         </div>
         
         <div class="stats">
@@ -1144,6 +1147,7 @@ NEW_CUSTOMER_HTML = '''
             <a href="/wiki" class="nav-link">📚 Wiki</a>
             <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
             <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
         </div>
         
         {% if success %}
@@ -1951,6 +1955,7 @@ CUSTOMERS_HTML = '''
             <a href="/wiki" class="nav-link">📚 Wiki</a>
             <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
             <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
         </div>
         
         <div style="text-align: center;">
@@ -3425,6 +3430,487 @@ def customers():
     
     return render_template_string(CUSTOMERS_HTML, customers=customers_list)
 
+# ============ ŠKOLENIA HTML ŠABLÓNY ============
+
+# HTML šablóna pre ŠKOLENIA - tréningové materiály (zelená/teal farba)
+TRAINING_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | Školenia</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #00897b; margin-bottom: 10px; text-align: center; font-size: 2.5em; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .nav-links {
+            margin-bottom: 30px; text-align: center;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
+        }
+        .nav-link { color: #00897b; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .nav-link:hover { color: #26a69a; }
+        
+        .case-list { margin-top: 20px; }
+        .case-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 20px; margin-bottom: 10px;
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            border-radius: 12px; border-left: 5px solid #00897b;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .case-item:hover { transform: translateX(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .case-icon { font-size: 2em; }
+        .case-info { flex: 1; }
+        .case-title { font-size: 1.2em; font-weight: 600; color: #333; }
+        .case-desc { color: #666; font-size: 0.95em; margin-top: 5px; }
+        .case-meta { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85em; color: #888; }
+        .case-arrow { color: #00897b; font-size: 1.5em; }
+        .difficulty { padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+        .difficulty.beginner { background: #c8e6c9; color: #2e7d32; }
+        .difficulty.intermediate { background: #fff9c4; color: #f57f17; }
+        .difficulty.advanced { background: #ffcdd2; color: #c62828; }
+        
+        .add-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 25px; background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            color: white; border: none; border-radius: 25px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+            text-decoration: none; margin-bottom: 20px;
+        }
+        .add-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(0,137,123,0.4); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                 background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white; border-radius: 15px; padding: 30px;
+            max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.4em; color: #00897b; }
+        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #999; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #00897b; outline: none; }
+        .submit-btn {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+        
+        .no-cases { text-align: center; padding: 60px 20px; color: #999; }
+        .no-cases-icon { font-size: 4em; margin-bottom: 20px; }
+        
+        .search-box {
+            display: flex; gap: 10px; margin-bottom: 25px;
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            padding: 15px; border-radius: 15px;
+        }
+        .search-input {
+            flex: 1; padding: 12px 20px; border: 2px solid #b2dfdb;
+            border-radius: 25px; font-size: 1em; outline: none;
+        }
+        .search-input:focus { border-color: #00897b; }
+        .search-btn {
+            padding: 12px 25px; background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            color: white; border: none; border-radius: 25px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+        }
+        .search-btn:hover { transform: scale(1.05); }
+        .clear-btn {
+            padding: 12px 20px; background: #6c757d; color: white;
+            border: none; border-radius: 25px; cursor: pointer;
+            text-decoration: none; font-weight: 600;
+        }
+        .search-results {
+            background: #e0f2f1; padding: 10px 20px; border-radius: 10px;
+            margin-bottom: 20px; color: #00695c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Školenia</h1>
+        <p class="subtitle">Tréningové materiály a vzdelávacie kurzy pre prácu s IS</p>
+        
+        <div class="nav-links">
+            <a href="/" class="nav-link">🏠 Dashboard</a>
+            <a href="/wiki" class="nav-link">📚 Wiki</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
+            <a href="/customers" class="nav-link">👥 Zákazníci</a>
+        </div>
+        
+        <form class="search-box" method="GET" action="/training">
+            <input type="text" name="q" class="search-input" 
+                   placeholder="🔍 Hľadať v školeniach..."
+                   value="{{ search_query or '' }}">
+            <button type="submit" class="search-btn">Hľadať</button>
+            {% if search_query %}
+            <a href="/training" class="clear-btn">✕ Zrušiť</a>
+            {% endif %}
+        </form>
+        
+        {% if search_query %}
+        <div class="search-results">
+            🔍 Výsledky pre "<strong>{{ search_query }}</strong>": nájdených <strong>{{ cases|length }}</strong> školení
+        </div>
+        {% endif %}
+        
+        <button class="add-btn" onclick="openModal()">➕ Nové školenie</button>
+        
+        <div class="case-list">
+            {% if cases %}
+                {% for case in cases %}
+                <a href="/training/{{ case.id }}" style="text-decoration: none;">
+                    <div class="case-item">
+                        <div class="case-icon">📖</div>
+                        <div class="case-info">
+                            <div class="case-title">{{ case.title }}</div>
+                            <div class="case-desc">{{ case.description[:100] if case.description else '' }}{% if case.description and case.description|length > 100 %}...{% endif %}</div>
+                            <div class="case-meta">
+                                <span>📁 {{ case.category or 'Bez kategórie' }}</span>
+                                <span>📅 {{ case.created_at[:10] if case.created_at else '' }}</span>
+                                <span>📝 {{ case.steps_count or 0 }} krokov</span>
+                                <span class="difficulty {{ case.difficulty or 'beginner' }}">
+                                    {% if case.difficulty == 'advanced' %}Pokročilý
+                                    {% elif case.difficulty == 'intermediate' %}Stredný
+                                    {% else %}Začiatočník{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="case-arrow">→</div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="no-cases">
+                    <div class="no-cases-icon">📖</div>
+                    <h2>Zatiaľ žiadne školenia</h2>
+                    <p>Začnite pridaním prvého školenia</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">➕ Nové školenie</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form method="POST" action="/training/add">
+                <div class="form-group">
+                    <label>Názov školenia</label>
+                    <input type="text" name="title" required placeholder="Napr. Základy práce s IS">
+                </div>
+                <div class="form-group">
+                    <label>Kategória</label>
+                    <select name="category">
+                        <option value="Základy IS">Základy IS</option>
+                        <option value="Moduly">Moduly</option>
+                        <option value="Reporty">Reporty</option>
+                        <option value="Administrácia">Administrácia</option>
+                        <option value="Integrácie">Integrácie</option>
+                        <option value="Iné">Iné</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Úroveň obtiažnosti</label>
+                    <select name="difficulty">
+                        <option value="beginner">Začiatočník</option>
+                        <option value="intermediate">Stredný</option>
+                        <option value="advanced">Pokročilý</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea name="description" rows="4" placeholder="O čom je toto školenie..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Vytvoriť</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function openModal() { document.getElementById('addModal').classList.add('active'); }
+        function closeModal() { document.getElementById('addModal').classList.remove('active'); }
+        document.getElementById('addModal').onclick = function(e) { if (e.target === this) closeModal(); }
+    </script>
+</body>
+</html>
+'''
+
+# HTML šablóna pre detail školenia
+TRAINING_DETAIL_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | {{ case.title }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            background: white; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px; max-width: 1000px; margin: 0 auto;
+        }
+        .back-link { color: #00897b; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 20px; }
+        .back-link:hover { color: #26a69a; }
+        h1 { color: #00897b; margin-bottom: 10px; font-size: 2em; }
+        .case-meta { color: #666; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .case-desc { background: #e0f2f1; padding: 20px; border-radius: 10px; margin-bottom: 30px; line-height: 1.6; }
+        .difficulty { padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 600; }
+        .difficulty.beginner { background: #c8e6c9; color: #2e7d32; }
+        .difficulty.intermediate { background: #fff9c4; color: #f57f17; }
+        .difficulty.advanced { background: #ffcdd2; color: #c62828; }
+        
+        .section-title { color: #00897b; font-size: 1.4em; margin: 30px 0 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        
+        .steps-list { margin-bottom: 30px; }
+        .step-item {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            border-radius: 12px; padding: 20px; margin-bottom: 15px;
+            border-left: 5px solid #00897b;
+            transition: all 0.3s;
+        }
+        .step-item:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .step-item.decision { border-left-color: #ff9800; background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); }
+        .step-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; background: #00897b;
+            color: white; border-radius: 50%; font-weight: bold; margin-right: 15px;
+        }
+        .step-number.decision { background: #ff9800; }
+        .step-title { font-weight: 600; color: #333; display: inline; }
+        .step-desc { margin-top: 10px; color: #666; padding-left: 47px; }
+        .step-actions { margin-top: 10px; padding-left: 47px; display: flex; gap: 10px; }
+        .step-actions button, .step-actions a {
+            padding: 5px 12px; border-radius: 5px; font-size: 0.85em;
+            cursor: pointer; text-decoration: none; border: none;
+        }
+        .edit-btn { background: #2196F3; color: white; }
+        .delete-btn { background: #f44336; color: white; }
+        
+        .branch-container {
+            margin-left: 30px; margin-top: 15px; padding: 15px;
+            border-left: 4px solid #26a69a; background: #f5f5f5; border-radius: 0 10px 10px 0;
+        }
+        .branch-header { font-weight: 600; color: #00897b; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .branch-color { width: 12px; height: 12px; border-radius: 50%; }
+        
+        .add-step-form {
+            background: #e0f2f1; padding: 20px; border-radius: 12px; margin-top: 20px;
+        }
+        .add-step-form h3 { color: #00897b; margin-bottom: 15px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 10px; border: 2px solid #b2dfdb; border-radius: 8px;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #00897b; outline: none; }
+        .submit-btn {
+            padding: 12px 30px; background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+            color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+        .submit-btn:hover { transform: scale(1.02); }
+        
+        .complications { margin-top: 30px; }
+        .complication-item {
+            background: #fff3e0; border-left: 4px solid #ff9800;
+            padding: 15px; border-radius: 0 10px 10px 0; margin-bottom: 10px;
+        }
+        .complication-title { font-weight: 600; color: #e65100; }
+        .complication-desc { margin-top: 8px; color: #666; }
+        .complication-solution { margin-top: 8px; padding: 10px; background: #e8f5e9; border-radius: 8px; color: #2e7d32; }
+        
+        .no-steps { text-align: center; padding: 40px; color: #999; background: #f5f5f5; border-radius: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/training" class="back-link">← Späť na školenia</a>
+        
+        <h1>📖 {{ case.title }}</h1>
+        <div class="case-meta">
+            <span>📁 {{ case.category or 'Bez kategórie' }}</span>
+            <span>📅 {{ case.created_at[:10] if case.created_at else '' }}</span>
+            <span class="difficulty {{ case.difficulty or 'beginner' }}">
+                {% if case.difficulty == 'advanced' %}Pokročilý
+                {% elif case.difficulty == 'intermediate' %}Stredný
+                {% else %}Začiatočník{% endif %}
+            </span>
+        </div>
+        
+        {% if case.description %}
+        <div class="case-desc">{{ case.description }}</div>
+        {% endif %}
+        
+        <h2 class="section-title">📋 Kroky školenia</h2>
+        
+        <div class="steps-list">
+            {% if steps %}
+                {% for step in steps %}
+                <div class="step-item {% if step.step_type == 'decision' %}decision{% endif %}">
+                    <span class="step-number {% if step.step_type == 'decision' %}decision{% endif %}">
+                        {% if step.step_type == 'decision' %}?{% else %}{{ step.step_number }}{% endif %}
+                    </span>
+                    <span class="step-title">{{ step.title }}</span>
+                    {% if step.description %}
+                    <div class="step-desc">{{ step.description }}</div>
+                    {% endif %}
+                    <div class="step-actions">
+                        <button class="edit-btn" onclick="editStep({{ step.id }}, '{{ step.title }}', '{{ step.description|default('', true)|replace("'", "\\'") }}')">✏️ Upraviť</button>
+                        <a href="/training/{{ case.id }}/delete-step/{{ step.id }}" class="delete-btn" onclick="return confirm('Naozaj zmazať tento krok?')">🗑️ Zmazať</a>
+                    </div>
+                    
+                    {% for branch in branches if branch.parent_step_id == step.id %}
+                    <div class="branch-container" style="border-left-color: {{ branch.branch_color }};">
+                        <div class="branch-header">
+                            <span class="branch-color" style="background: {{ branch.branch_color }};"></span>
+                            {{ branch.branch_name }}
+                        </div>
+                        {% for bstep in steps if bstep.branch_id == branch.id %}
+                        <div class="step-item" style="margin-left: 0; border-left-color: {{ branch.branch_color }};">
+                            <span class="step-number" style="background: {{ branch.branch_color }};">{{ bstep.step_number }}</span>
+                            <span class="step-title">{{ bstep.title }}</span>
+                            {% if bstep.description %}
+                            <div class="step-desc">{{ bstep.description }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-steps">
+                    <p>📝 Zatiaľ žiadne kroky. Pridajte prvý krok nižšie.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if complications %}
+        <div class="complications">
+            <h2 class="section-title">⚠️ Možné komplikácie</h2>
+            {% for comp in complications %}
+            <div class="complication-item">
+                <div class="complication-title">{{ comp.title }}</div>
+                {% if comp.description %}
+                <div class="complication-desc">{{ comp.description }}</div>
+                {% endif %}
+                {% if comp.solution %}
+                <div class="complication-solution"><strong>Riešenie:</strong> {{ comp.solution }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="add-step-form">
+            <h3>➕ Pridať nový krok</h3>
+            <form method="POST" action="/training/{{ case.id }}/add-step">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Typ</label>
+                        <select name="step_type">
+                            <option value="step">Krok</option>
+                            <option value="decision">Rozhodnutie</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label>Názov kroku</label>
+                        <input type="text" name="title" required placeholder="Čo sa má urobiť...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Popis (voliteľné)</label>
+                    <textarea name="description" rows="3" placeholder="Podrobnejší popis..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Pridať krok</button>
+            </form>
+        </div>
+        
+        <div class="add-step-form" style="margin-top: 20px; background: #fff3e0;">
+            <h3>⚠️ Pridať komplikáciu</h3>
+            <form method="POST" action="/training/{{ case.id }}/add-complication">
+                <div class="form-group">
+                    <label>Názov problému</label>
+                    <input type="text" name="title" required placeholder="Napr. Chyba pri pripojení...">
+                </div>
+                <div class="form-group">
+                    <label>Popis problému</label>
+                    <textarea name="description" rows="2" placeholder="Kedy nastáva..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Riešenie</label>
+                    <textarea name="solution" rows="2" placeholder="Ako vyriešiť..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);">Pridať komplikáciu</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:15px; padding:30px; max-width:500px; width:90%;">
+            <h3 style="color:#00897b; margin-bottom:20px;">✏️ Upraviť krok</h3>
+            <form method="POST" id="editForm">
+                <div class="form-group">
+                    <label>Názov</label>
+                    <input type="text" name="title" id="editTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea name="description" id="editDesc" rows="3"></textarea>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="submit-btn">Uložiť</button>
+                    <button type="button" onclick="closeEditModal()" style="padding:12px 30px; background:#6c757d; color:white; border:none; border-radius:8px; cursor:pointer;">Zrušiť</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function editStep(stepId, title, desc) {
+            document.getElementById('editForm').action = '/training/{{ case.id }}/edit-step/' + stepId;
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editDesc').value = desc;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+'''
+
 # ============ SERVIS ROUTES ============
 
 @app.route('/service')
@@ -3673,6 +4159,175 @@ def service_delete_step(case_id, step_id):
         c.execute('DELETE FROM service_steps WHERE id = ? AND case_id = ?', (step_id, case_id))
     
     return redirect(f'/service/{case_id}')
+
+# ============ ŠKOLENIA ROUTES ============
+
+@app.route('/training')
+def training():
+    """Zobrazí zoznam školení."""
+    import sqlite3
+    
+    search_query = request.args.get('q', '').strip()
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        if search_query:
+            c.execute('''
+                SELECT tc.*, COUNT(ts.id) as steps_count 
+                FROM training_cases tc
+                LEFT JOIN training_steps ts ON tc.id = ts.case_id
+                WHERE tc.title LIKE ? OR tc.description LIKE ? OR tc.category LIKE ?
+                GROUP BY tc.id
+                ORDER BY tc.created_at DESC
+            ''', (f'%{search_query}%', f'%{search_query}%', f'%{search_query}%'))
+        else:
+            c.execute('''
+                SELECT tc.*, COUNT(ts.id) as steps_count 
+                FROM training_cases tc
+                LEFT JOIN training_steps ts ON tc.id = ts.case_id
+                GROUP BY tc.id
+                ORDER BY tc.created_at DESC
+            ''')
+        
+        cases = [dict(row) for row in c.fetchall()]
+    
+    return render_template_string(TRAINING_HTML, cases=cases, search_query=search_query)
+
+@app.route('/training/add', methods=['POST'])
+def training_add():
+    """Pridá nové školenie."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    category = request.form.get('category', '').strip()
+    difficulty = request.form.get('difficulty', 'beginner').strip()
+    description = request.form.get('description', '').strip()
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                INSERT INTO training_cases (title, category, difficulty, description)
+                VALUES (?, ?, ?, ?)
+            ''', (title, category, difficulty, description))
+    
+    return redirect('/training')
+
+@app.route('/training/<int:case_id>')
+def training_detail(case_id):
+    """Zobrazí detail školenia."""
+    import sqlite3
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        c.execute('SELECT * FROM training_cases WHERE id = ?', (case_id,))
+        case = c.fetchone()
+        
+        if not case:
+            return redirect('/training')
+        
+        case = dict(case)
+        
+        c.execute('''
+            SELECT * FROM training_steps WHERE case_id = ? ORDER BY display_order, id
+        ''', (case_id,))
+        steps = [dict(row) for row in c.fetchall()]
+        
+        c.execute('SELECT * FROM training_branches WHERE case_id = ?', (case_id,))
+        branches = [dict(row) for row in c.fetchall()]
+        
+        c.execute('SELECT * FROM training_complications WHERE case_id = ?', (case_id,))
+        complications = [dict(row) for row in c.fetchall()]
+    
+    return render_template_string(TRAINING_DETAIL_HTML, case=case, steps=steps, branches=branches, complications=complications)
+
+@app.route('/training/<int:case_id>/add-step', methods=['POST'])
+def training_add_step(case_id):
+    """Pridá krok do školenia."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    step_type = request.form.get('step_type', 'step').strip()
+    branch_id = request.form.get('branch_id')
+    branch_id = int(branch_id) if branch_id else None
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            
+            # Zisti číslo kroku
+            if branch_id:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM training_steps WHERE case_id = ? AND branch_id = ?', (case_id, branch_id))
+            else:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM training_steps WHERE case_id = ? AND branch_id IS NULL', (case_id,))
+            step_number = c.fetchone()[0]
+            
+            c.execute('SELECT COALESCE(MAX(display_order), 0) + 1 FROM training_steps WHERE case_id = ?', (case_id,))
+            display_order = c.fetchone()[0]
+            
+            c.execute('''
+                INSERT INTO training_steps (case_id, branch_id, step_number, title, description, step_type, display_order)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (case_id, branch_id, step_number, title, description, step_type, display_order))
+    
+    return redirect(f'/training/{case_id}')
+
+@app.route('/training/<int:case_id>/add-complication', methods=['POST'])
+def training_add_complication(case_id):
+    """Pridá komplikáciu do školenia."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    solution = request.form.get('solution', '').strip()
+    branch_id = request.form.get('branch_id', '').strip()
+    branch_id = int(branch_id) if branch_id else None
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                INSERT INTO training_complications (case_id, title, description, solution, branch_id)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (case_id, title, description, solution, branch_id))
+    
+    return redirect(f'/training/{case_id}')
+
+@app.route('/training/<int:case_id>/edit-step/<int:step_id>', methods=['POST'])
+def training_edit_step(case_id, step_id):
+    """Editácia kroku v školení."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                UPDATE training_steps 
+                SET title = ?, description = ?
+                WHERE id = ? AND case_id = ?
+            ''', (title, description, step_id, case_id))
+    
+    return redirect(f'/training/{case_id}')
+
+@app.route('/training/<int:case_id>/delete-step/<int:step_id>')
+def training_delete_step(case_id, step_id):
+    """Zmazanie kroku zo školenia."""
+    import sqlite3
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        c = conn.cursor()
+        c.execute('DELETE FROM training_branches WHERE parent_step_id = ?', (step_id,))
+        c.execute('DELETE FROM training_steps WHERE id = ? AND case_id = ?', (step_id, case_id))
+    
+    return redirect(f'/training/{case_id}')
 
 @app.route('/favicon.ico')
 def favicon():
