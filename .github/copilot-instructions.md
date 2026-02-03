@@ -140,10 +140,12 @@ IS-Assistant/
 ### 1. Dashboard (`/`)
 - Overview of customers, modules, functionalities
 
-### 2. Customers (`/customers`, `/new-customer`)
+### 2. Customers (`/customers`, `/new-customer`, `/customer/<id>/edit`)
 - Customer onboarding with voice recording
 - AI parsing of meeting notes
 - HW specifications, locations with map markers
+- **Edit/Delete:** Modify or remove customers
+- **⚠️ PRAVIDLO:** Všetky polia, ktoré sa dajú vyplniť pri vytváraní nového zákazníka, musia byť editovateľné aj pri úprave existujúceho zákazníka (a naopak)
 
 ### 3. Wiki (`/wiki`)
 - 3-level hierarchical documentation
@@ -296,6 +298,7 @@ class ISSpecification:
 - ✅ Keep database operations separate
 - ✅ Store sensitive data in environment variables
 - ✅ Write tests for critical functions
+- ✅ **Formulárová konzistencia:** Všetky polia dostupné pri vytváraní (CREATE) musia byť editovateľné aj pri úprave (EDIT) a naopak
 
 ### Never:
 - ❌ Hardcode API keys or passwords
@@ -303,6 +306,7 @@ class ISSpecification:
 - ❌ Create files outside the project structure
 - ❌ Mix business logic with database code
 - ❌ Ignore error handling
+- ❌ **Vytvárať formuláre s rôznymi poľami pre CREATE a EDIT operácie**
 
 ## Testing Guidelines
 

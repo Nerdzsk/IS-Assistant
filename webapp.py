@@ -17,7 +17,7 @@ HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,15 +25,15 @@ HTML = '''
             padding: 20px;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 600px;
             width: 100%;
         }
         h1 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2em;
@@ -43,27 +43,29 @@ HTML = '''
         }
         label {
             display: block;
-            color: #555;
+            color: #b2bec3;
             font-weight: 600;
             margin-bottom: 8px;
         }
         select, input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #636e72;
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s;
+            background: #2d3436;
+            color: #dfe6e9;
         }
         select:focus, input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
         }
         button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -74,38 +76,39 @@ HTML = '''
         }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 20px rgba(116,185,255,0.4);
         }
         button:active {
             transform: translateY(0);
         }
         .nav-link {
             display: inline-block;
-            margin-top: 20px;
-            color: #667eea;
+            margin-top: 15px;
+            margin-right: 15px;
+            color: #74b9ff;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
         .nav-link:hover {
-            color: #764ba2;
+            color: #0984e3;
         }
         .result {
             margin-top: 30px;
             padding: 20px;
-            background: #f8f9fa;
+            background: #2d3436;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #74b9ff;
         }
         .result h2 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
         .result pre {
             white-space: pre-wrap;
             word-wrap: break-word;
-            color: #333;
+            color: #dfe6e9;
             line-height: 1.6;
         }
     </style>
@@ -127,12 +130,14 @@ HTML = '''
             </div>
             <button type="submit">🔎 Vyhľadať</button>
         </form>
-        <a href="/ai-chat" class="nav-link">💬 AI asistent →</a>
-        <a href="/wiki" class="nav-link">📚 Wiki / Štruktúra →</a>
-        <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
-        <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
-        <a href="/service" class="nav-link">🔧 Servis →</a>
-        <a href="/training" class="nav-link">🎓 Školenia →</a>
+        <div style="margin-top: 20px;">
+            <a href="/ai-chat" class="nav-link">💬 AI asistent</a>
+            <a href="/wiki" class="nav-link">📚 Wiki</a>
+            <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
+            <a href="/customers" class="nav-link">👥 Zákazníci</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
+        </div>
         {% if vysledok %}
         <div class="result">
             <h2>Výsledok:</h2>
@@ -156,7 +161,7 @@ AI_CHAT_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -164,15 +169,15 @@ AI_CHAT_HTML = '''
             padding: 20px;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 800px;
             width: 100%;
         }
         h1 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2em;
@@ -182,29 +187,31 @@ AI_CHAT_HTML = '''
         }
         label {
             display: block;
-            color: #555;
+            color: #b2bec3;
             font-weight: 600;
             margin-bottom: 8px;
         }
         textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #636e72;
             border-radius: 10px;
             font-size: 16px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             resize: vertical;
             transition: all 0.3s;
+            background: #2d3436;
+            color: #dfe6e9;
         }
         textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
         }
         button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -215,7 +222,7 @@ AI_CHAT_HTML = '''
         }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 20px rgba(116,185,255,0.4);
         }
         button:active {
             transform: translateY(0);
@@ -223,24 +230,25 @@ AI_CHAT_HTML = '''
         .nav-link {
             display: inline-block;
             margin-top: 20px;
-            color: #667eea;
+            color: #74b9ff;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
+            margin-right: 15px;
         }
         .nav-link:hover {
-            color: #764ba2;
+            color: #0984e3;
         }
         .answer-box {
             margin-top: 30px;
             padding: 25px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             border-radius: 15px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #74b9ff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .answer-box h2 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 15px;
             font-size: 1.3em;
             display: flex;
@@ -250,7 +258,7 @@ AI_CHAT_HTML = '''
         .answer-box pre {
             white-space: pre-wrap;
             word-wrap: break-word;
-            color: #333;
+            color: #dfe6e9;
             line-height: 1.8;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -269,12 +277,14 @@ AI_CHAT_HTML = '''
             </div>
             <button type="submit">🚀 Opýtať sa AI</button>
         </form>
-        <a href="/" class="nav-link">← Späť na vyhľadávanie</a>
-        <a href="/wiki" class="nav-link">📚 Wiki / Štruktúra →</a>
-        <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
-        <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
-        <a href="/service" class="nav-link">🔧 Servis →</a>
-        <a href="/training" class="nav-link">🎓 Školenia →</a>
+        <div style="margin-top: 20px;">
+            <a href="/" class="nav-link">← Späť na vyhľadávanie</a>
+            <a href="/wiki" class="nav-link">📚 Wiki</a>
+            <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
+            <a href="/customers" class="nav-link">👥 Zákazníci</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
+        </div>
         {% if odpoved %}
         <div class="answer-box">
             <h2><span class="icon">🤖</span> Odpoveď AI:</h2>
@@ -298,19 +308,19 @@ WIKI_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             padding: 20px;
         }
         .admin-panel {
-            background: #ffffff;
-            border: 2px dashed #667eea;
+            background: #1e272e;
+            border: 2px dashed #74b9ff;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 30px;
         }
         .admin-panel h2 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 15px;
         }
         .admin-grid {
@@ -319,13 +329,13 @@ WIKI_HTML = '''
             gap: 20px;
         }
         .admin-card {
-            background: #f8f9fa;
+            background: #2d3436;
             border-radius: 12px;
             padding: 15px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #74b9ff;
         }
         .admin-card h3 {
-            color: #764ba2;
+            color: #81ecec;
             margin-bottom: 10px;
         }
         .admin-card label {
@@ -333,19 +343,22 @@ WIKI_HTML = '''
             font-weight: 600;
             margin-top: 10px;
             margin-bottom: 6px;
+            color: #b2bec3;
         }
         .admin-card input, .admin-card select, .admin-card textarea {
             width: 100%;
             padding: 10px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #636e72;
             border-radius: 8px;
             font-size: 14px;
+            background: #1e272e;
+            color: #dfe6e9;
         }
         .admin-card button {
             margin-top: 12px;
             width: 100%;
             padding: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -355,7 +368,7 @@ WIKI_HTML = '''
         .admin-note {
             margin-top: 10px;
             font-size: 0.9em;
-            color: #666;
+            color: #b2bec3;
         }
         .message {
             padding: 12px 15px;
@@ -363,19 +376,19 @@ WIKI_HTML = '''
             margin-bottom: 20px;
         }
         .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: #00b894;
+            color: white;
+            border: 1px solid #00cec9;
         }
         .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #d63031;
+            color: white;
+            border: 1px solid #ff7675;
         }
         .submodules {
             margin-top: 15px;
             padding-left: 20px;
-            border-left: 2px dashed #c5c5c5;
+            border-left: 2px dashed #636e72;
         }
         .submodules-header {
             display: flex;
@@ -383,19 +396,20 @@ WIKI_HTML = '''
             gap: 10px;
             cursor: pointer;
             padding: 10px;
-            background: #f0f0f0;
+            background: #2d3436;
             border-radius: 8px;
             margin-bottom: 10px;
             transition: background 0.3s;
+            color: #dfe6e9;
         }
         .submodules-header:hover {
-            background: #e0e0e0;
+            background: #353b48;
         }
         .toggle-btn {
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             border: none;
             font-size: 18px;
@@ -430,22 +444,22 @@ WIKI_HTML = '''
             align-items: center;
             gap: 10px;
             padding: 12px 15px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            color: #764ba2;
+            color: #81ecec;
             transition: all 0.3s;
-            border-left: 3px solid #764ba2;
+            border-left: 3px solid #81ecec;
         }
         .submodule-name:hover {
-            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            background: linear-gradient(135deg, #353b48 0%, #485460 100%);
             transform: translateX(5px);
         }
         .submodule-arrow {
             font-size: 0.8em;
             transition: transform 0.3s;
-            color: #667eea;
+            color: #74b9ff;
         }
         .submodule-arrow.expanded {
             transform: rotate(90deg);
@@ -463,34 +477,35 @@ WIKI_HTML = '''
             opacity: 1;
         }
         .submodule-card {
-            background: #ffffff;
+            background: #2d3436;
             border-radius: 12px;
             padding: 15px;
             margin: 10px 0 12px 25px;
-            border-left: 4px solid #764ba2;
+            border-left: 4px solid #81ecec;
         }
         .relationships {
             margin-top: 15px;
             padding-left: 50px;
         }
         .relationship-item {
-            background: #ffffff;
+            background: #2d3436;
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 8px;
-            border-left: 3px solid #667eea;
+            border-left: 3px solid #74b9ff;
             font-size: 0.95em;
+            color: #dfe6e9;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
         h1 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2.5em;
@@ -502,13 +517,13 @@ WIKI_HTML = '''
         .nav-link {
             display: inline-block;
             margin: 0 10px;
-            color: #667eea;
+            color: #74b9ff;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
         .nav-link:hover {
-            color: #764ba2;
+            color: #0984e3;
         }
         .modules-list {
             margin-top: 20px;
@@ -521,18 +536,18 @@ WIKI_HTML = '''
             align-items: center;
             gap: 12px;
             padding: 15px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             border-radius: 10px;
             cursor: pointer;
             color: white;
             font-weight: 600;
             font-size: 1.1em;
             transition: all 0.3s;
-            box-shadow: 0 3px 10px rgba(102,126,234,0.3);
+            box-shadow: 0 3px 10px rgba(116,185,255,0.3);
         }
         .module-name:hover {
             transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+            box-shadow: 0 5px 15px rgba(116,185,255,0.4);
         }
         .module-arrow {
             font-size: 0.9em;
@@ -567,12 +582,12 @@ WIKI_HTML = '''
             opacity: 1;
         }
         .module-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             border-radius: 15px;
             padding: 25px;
             margin: 10px 0 15px 20px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #74b9ff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .module-header {
             display: flex;
@@ -584,20 +599,20 @@ WIKI_HTML = '''
             flex: 1;
         }
         .module-title h2 {
-            color: #667eea;
+            color: #74b9ff;
             font-size: 1.5em;
             margin-bottom: 5px;
         }
         .module-version {
-            background: #667eea;
-            color: white;
+            background: #74b9ff;
+            color: #1e272e;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85em;
             font-weight: 600;
         }
         .module-description {
-            color: #555;
+            color: #b2bec3;
             line-height: 1.6;
             margin-bottom: 20px;
             padding-left: 50px;
@@ -606,40 +621,40 @@ WIKI_HTML = '''
             padding-left: 50px;
         }
         .functionalities h3 {
-            color: #764ba2;
+            color: #81ecec;
             margin-bottom: 15px;
             font-size: 1.2em;
         }
         .functionality-item {
-            background: white;
+            background: #1e272e;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
-            border-left: 3px solid #764ba2;
+            border-left: 3px solid #81ecec;
             transition: all 0.3s;
         }
         .functionality-item:hover {
-            box-shadow: 0 3px 10px rgba(118,75,162,0.2);
+            box-shadow: 0 3px 10px rgba(129,236,236,0.2);
             transform: translateX(5px);
         }
         .functionality-name {
-            color: #764ba2;
+            color: #81ecec;
             font-weight: 600;
             margin-bottom: 5px;
         }
         .functionality-description {
-            color: #666;
+            color: #b2bec3;
             font-size: 0.95em;
             line-height: 1.5;
         }
         .no-data {
             text-align: center;
-            color: #999;
+            color: #636e72;
             padding: 40px;
             font-style: italic;
         }
         .stats {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -696,14 +711,14 @@ WIKI_HTML = '''
         }
         .voice-status {
             font-size: 0.8em;
-            color: #666;
+            color: #b2bec3;
             padding: 4px 8px;
-            background: #f0f0f0;
+            background: #2d3436;
             border-radius: 4px;
         }
         .voice-status.recording {
-            background: #ffebee;
-            color: #c62828;
+            background: #d63031;
+            color: white;
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
@@ -730,105 +745,6 @@ WIKI_HTML = '''
         {% if error_message %}
         <div class="message error">{{ error_message }}</div>
         {% endif %}
-
-        <div class="admin-panel">
-            <h2>🛠️ Správa modulov (admin)</h2>
-            <div class="admin-note">Poznámka: Neskôr bude táto sekcia dostupná len pre administrátorov.</div>
-            <div class="admin-grid">
-                <div class="admin-card">
-                    <h3>➕ Nový modul</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_module">
-                        <label>Názov modulu</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" id="moduleDesc" rows="3"></textarea>
-                        <div class="voice-controls">
-                            <button type="button" class="voice-btn record" onclick="startRecording('moduleDesc')">🎙️ Nahrať</button>
-                            <button type="button" class="voice-btn stop" id="stop_moduleDesc" onclick="stopRecording('moduleDesc')" style="display:none;">⏹ Stop</button>
-                            <span class="voice-status" id="status_moduleDesc"></span>
-                        </div>
-                        <button type="submit">Pridať modul</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>🧩 Nový podmodul</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_submodule">
-                        <label>Rodičovský modul</label>
-                        <select name="parent_module_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules if not m.parent_module_id %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Názov podmodulu</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" id="submoduleDesc" rows="3"></textarea>
-                        <div class="voice-controls">
-                            <button type="button" class="voice-btn record" onclick="startRecording('submoduleDesc')">🎙️ Nahrať</button>
-                            <button type="button" class="voice-btn stop" id="stop_submoduleDesc" onclick="stopRecording('submoduleDesc')" style="display:none;">⏹ Stop</button>
-                            <span class="voice-status" id="status_submoduleDesc"></span>
-                        </div>
-                        <button type="submit">Pridať podmodul</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>⚙️ Nová funkcionalita</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_functionality">
-                        <label>Modul / Podmodul</label>
-                        <select name="module_id" required>
-                            <option value="">-- vyber --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}{% if m.parent_module_id %} (podmodul){% endif %}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Názov funkcionality</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" id="funcDesc" rows="3"></textarea>
-                        <div class="voice-controls">
-                            <button type="button" class="voice-btn record" onclick="startRecording('funcDesc')">🎙️ Nahrať</button>
-                            <button type="button" class="voice-btn stop" id="stop_funcDesc" onclick="stopRecording('funcDesc')" style="display:none;">⏹ Stop</button>
-                            <span class="voice-status" id="status_funcDesc"></span>
-                        </div>
-                        <button type="submit">Pridať funkcionalitu</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>🔗 Nová súvislosť</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_relationship">
-                        <label>Od modulu</label>
-                        <select name="module_from_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Na modul</label>
-                        <select name="module_to_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Typ súvislosti</label>
-                        <input name="relationship_type" placeholder="napr. závisí od">
-                        <label>Popis</label>
-                        <textarea name="description" id="relDesc" rows="3"></textarea>
-                        <div class="voice-controls">
-                            <button type="button" class="voice-btn record" onclick="startRecording('relDesc')">🎙️ Nahrať</button>
-                            <button type="button" class="voice-btn stop" id="stop_relDesc" onclick="stopRecording('relDesc')" style="display:none;">⏹ Stop</button>
-                            <span class="voice-status" id="status_relDesc"></span>
-                        </div>
-                        <button type="submit">Pridať súvislosť</button>
-                    </form>
-                </div>
-            </div>
-        </div>
         
         <div class="stats">
             <h3>📊 Prehľad databázy</h3>
@@ -841,6 +757,9 @@ WIKI_HTML = '''
                     {{ total_functionalities }}
                     <div class="stat-label">funkcionalít</div>
                 </div>
+            </div>
+            <div style="margin-top: 15px;">
+                <a href="/wiki/admin" style="color: white; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600;">🛠️ Správa modulov (admin)</a>
             </div>
         </div>
 
@@ -896,7 +815,7 @@ WIKI_HTML = '''
                     <div class="relationship-item">
                         {{ rel.relationship_type }} → {{ rel.to_module_name }}
                         {% if rel.description %}
-                        <div style="color:#666;">{{ rel.description }}</div>
+                        <div style="color:#b2bec3;">{{ rel.description }}</div>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -1109,6 +1028,415 @@ WIKI_HTML = '''
 </html>
 '''
 
+# HTML šablóna pre Wiki Admin - Správa modulov
+WIKI_ADMIN_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | Správa modulov</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: #1e272e;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #74b9ff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+        .nav-links {
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .nav-link {
+            color: #74b9ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #81ecec;
+        }
+        .admin-panel {
+            background: #1e272e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .admin-panel h2 {
+            color: #81ecec;
+            margin-bottom: 15px;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .admin-card {
+            background: #2d3436;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #636e72;
+        }
+        .admin-card h3 {
+            color: #74b9ff;
+            margin-bottom: 15px;
+        }
+        .admin-card label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            color: #b2bec3;
+        }
+        .admin-card input, .admin-card select, .admin-card textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #636e72;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #1e272e;
+            color: #dfe6e9;
+            margin-bottom: 12px;
+        }
+        .admin-card input:focus, .admin-card select:focus, .admin-card textarea:focus {
+            outline: none;
+            border-color: #74b9ff;
+        }
+        .admin-card button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .admin-card button:hover {
+            transform: translateY(-2px);
+        }
+        .admin-note {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #b2bec3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .message.success {
+            background: #00b894;
+            color: white;
+            border: 1px solid #00cec9;
+        }
+        .message.error {
+            background: #d63031;
+            color: white;
+            border: 1px solid #ff7675;
+        }
+        .voice-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .voice-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+        .voice-btn.record {
+            background: #ef5350;
+            color: white;
+        }
+        .voice-btn.record:hover {
+            background: #d32f2f;
+        }
+        .voice-btn.stop {
+            background: #ff9800;
+            color: white;
+        }
+        .voice-btn.stop:hover {
+            background: #f57c00;
+        }
+        .voice-status {
+            font-size: 0.8em;
+            color: #b2bec3;
+            padding: 4px 8px;
+            background: #2d3436;
+            border-radius: 4px;
+        }
+        .voice-status.recording {
+            background: #d63031;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .stats {
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .stats h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .stats-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        .stat-label {
+            font-size: 0.7em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Správa modulov</h1>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🔍 Vyhľadávanie</a>
+            <a href="/wiki" class="nav-link">📚 Wiki</a>
+            <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
+            <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
+            <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
+            <a href="/training" class="nav-link">🎓 Školenia</a>
+        </div>
+        
+        {% if success_message %}
+        <div class="message success">{{ success_message }}</div>
+        {% endif %}
+        {% if error_message %}
+        <div class="message error">{{ error_message }}</div>
+        {% endif %}
+        
+        <div class="stats">
+            <h3>📊 Prehľad databázy</h3>
+            <div class="stats-numbers">
+                <div class="stat-item">
+                    {{ total_modules }}
+                    <div class="stat-label">modulov</div>
+                </div>
+                <div class="stat-item">
+                    {{ total_functionalities }}
+                    <div class="stat-label">funkcionalít</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-note">📌 Táto sekcia je dostupná len pre administrátorov.</div>
+
+        <div class="admin-panel">
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3>➕ Nový modul</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_module">
+                        <label>Názov modulu</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="moduleDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('moduleDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_moduleDesc" onclick="stopRecording('moduleDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_moduleDesc"></span>
+                        </div>
+                        <button type="submit">Pridať modul</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>🧩 Nový podmodul</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_submodule">
+                        <label>Rodičovský modul</label>
+                        <select name="parent_module_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules if not m.parent_module_id %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Názov podmodulu</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="submoduleDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('submoduleDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_submoduleDesc" onclick="stopRecording('submoduleDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_submoduleDesc"></span>
+                        </div>
+                        <button type="submit">Pridať podmodul</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>⚙️ Nová funkcionalita</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_functionality">
+                        <label>Modul / Podmodul</label>
+                        <select name="module_id" required>
+                            <option value="">-- vyber --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}{% if m.parent_module_id %} (podmodul){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Názov funkcionality</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="funcDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('funcDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_funcDesc" onclick="stopRecording('funcDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_funcDesc"></span>
+                        </div>
+                        <button type="submit">Pridať funkcionalitu</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>🔗 Nová súvislosť</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_relationship">
+                        <label>Od modulu</label>
+                        <select name="module_from_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Na modul</label>
+                        <select name="module_to_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Typ súvislosti</label>
+                        <input name="relationship_type" placeholder="napr. závisí od">
+                        <label>Popis</label>
+                        <textarea name="description" id="relDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('relDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_relDesc" onclick="stopRecording('relDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_relDesc"></span>
+                        </div>
+                        <button type="submit">Pridať súvislosť</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Hlasové nahrávanie pomocou Web Speech API
+        let recognition = null;
+        let currentTextareaId = null;
+        
+        function startRecording(textareaId) {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Váš prehliadač nepodporuje hlasové nahrávanie. Použite Chrome alebo Edge.');
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'sk-SK';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            
+            currentTextareaId = textareaId;
+            const textarea = document.getElementById(textareaId);
+            const stopBtn = document.getElementById('stop_' + textareaId);
+            const status = document.getElementById('status_' + textareaId);
+            const recordBtn = event.target;
+            
+            recordBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+            status.textContent = '🔴 Nahrávam...';
+            status.classList.add('recording');
+            
+            let finalTranscript = textarea.value;
+            if (finalTranscript && !finalTranscript.endsWith(' ')) {
+                finalTranscript += ' ';
+            }
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript + ' ';
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                textarea.value = finalTranscript + interimTranscript;
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                status.textContent = 'Chyba: ' + event.error;
+                status.classList.remove('recording');
+            };
+            
+            recognition.onend = function() {
+                recordBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+                status.textContent = '✓ Hotovo';
+                status.classList.remove('recording');
+                textarea.value = finalTranscript.trim();
+            };
+            
+            recognition.start();
+        }
+        
+        function stopRecording(textareaId) {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+        }
+    </script>
+</body>
+</html>
+'''
+
 # HTML šablóna pre Nový zákazník
 NEW_CUSTOMER_HTML = '''
 <!doctype html>
@@ -1121,20 +1449,20 @@ NEW_CUSTOMER_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             padding: 20px;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 800px;
             margin: 0 auto;
         }
         h1 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2em;
@@ -1148,20 +1476,20 @@ NEW_CUSTOMER_HTML = '''
             gap: 15px;
         }
         .nav-link {
-            color: #667eea;
+            color: #74b9ff;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
         .nav-link:hover {
-            color: #764ba2;
+            color: #81ecec;
         }
         .form-step {
             margin-bottom: 25px;
             padding: 20px;
-            background: #f8f9fa;
+            background: #2d3436;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #74b9ff;
         }
         .form-step.hidden {
             display: none;
@@ -1171,7 +1499,7 @@ NEW_CUSTOMER_HTML = '''
         }
         label {
             display: block;
-            color: #555;
+            color: #b2bec3;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 1.1em;
@@ -1179,20 +1507,22 @@ NEW_CUSTOMER_HTML = '''
         input, select, textarea {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #636e72;
             border-radius: 10px;
             font-size: 16px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             transition: all 0.3s;
+            background: #1e272e;
+            color: #dfe6e9;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
         }
         button {
             padding: 14px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -1204,18 +1534,18 @@ NEW_CUSTOMER_HTML = '''
         }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 20px rgba(116,185,255,0.4);
         }
         button.secondary {
-            background: #6c757d;
+            background: #636e72;
         }
         .success-message {
             margin-top: 20px;
             padding: 20px;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
+            background: #00b894;
+            border: 1px solid #00cec9;
             border-radius: 10px;
-            color: #155724;
+            color: white;
         }
         .checkbox-group {
             margin: 15px 0;
@@ -1235,17 +1565,18 @@ NEW_CUSTOMER_HTML = '''
             font-weight: normal;
             cursor: pointer;
             flex: 1;
+            color: #dfe6e9;
         }
         .company-box {
-            background: white;
-            border: 2px solid #667eea;
+            background: #353b48;
+            border: 2px solid #74b9ff;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             position: relative;
         }
         .company-box h4 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 15px;
             margin-top: 0;
         }
@@ -1273,12 +1604,18 @@ NEW_CUSTOMER_HTML = '''
         }
         .section-title {
             font-size: 1.2em;
-            color: #667eea;
+            color: #74b9ff;
             font-weight: 600;
             margin-top: 30px;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #74b9ff;
+        }
+        h2 {
+            color: #81ecec;
+        }
+        p {
+            color: #b2bec3;
         }
     </style>
 </head>
@@ -1304,19 +1641,19 @@ NEW_CUSTOMER_HTML = '''
             <!-- Počiatočný súhrn zo stretnutia -->
             <div class="form-step" id="step0">
                 <h2><span class="question-number">1</span> 📝 Počiatočný súhrn zo stretnutia</h2>
-                <p style="color: #666; margin-bottom: 15px;">Zadajte textový súhrn z vášho stretnutia so zákazníkom. AI ho neskôr môže spracovať a doplniť jednotlivé údaje.</p>
+                <p style="color: #b2bec3; margin-bottom: 15px;">Zadajte textový súhrn z vášho stretnutia so zákazníkom. AI ho neskôr môže spracovať a doplniť jednotlivé údaje.</p>
                 <div class="form-group">
                     <label>Súhrn stretnutia *</label>
                     <textarea id="summaryTextarea" name="initial_summary" required placeholder="Napr. Stretol som sa s Jánom Novákom z ABC s.r.o. so sídlom v Bratislave. Majú reštauráciu v centre s kapacitou 80 ľudí. Zákazník chce implementovať systém na rezervácie stolkov a správu inventára..." style="min-height: 120px; resize: vertical;"></textarea>
                 </div>
                 
                 <!-- Audio nahrávanie -->
-                <div style="margin-top: 15px; padding: 15px; background: #f0f0f0; border-radius: 8px;">
-                    <h4 style="margin-top: 0; color: #333;">🎙️ Alebo nahrajte zvuk:</h4>
+                <div style="margin-top: 15px; padding: 15px; background: #353b48; border-radius: 8px;">
+                    <h4 style="margin-top: 0; color: #81ecec;">🎙️ Alebo nahrajte zvuk:</h4>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
                         <button type="button" id="recordBtn" style="background: #ef5350; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">● Začať nahrávanie</button>
                         <button type="button" id="stopBtn" style="background: #ff9800; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; display: none;">⏹ Zastaviť</button>
-                        <span id="recordingTime" style="color: #666; font-weight: 600;"></span>
+                        <span id="recordingTime" style="color: #b2bec3; font-weight: 600;"></span>
                     </div>
                     <input type="file" id="audioFile" accept="audio/*" style="margin-top: 10px; display: none;">
                     <button type="button" id="uploadAudioBtn" style="background: #4caf50; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-weight: 600; display: none;">🔄 Konvertovať zvuk na text</button>
@@ -1408,6 +1745,10 @@ NEW_CUSTOMER_HTML = '''
                                 <div class="checkbox-item">
                                     <input type="checkbox" name="branch_type_0" value="servis">
                                     <label>Servisné stredisko</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_0" value="eventova_agentura">
+                                    <label>Eventová agentúra</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" name="branch_type_0" value="ine">
@@ -1607,12 +1948,13 @@ NEW_CUSTOMER_HTML = '''
                 '<div class="checkbox-item"><input type="checkbox" name="branch_type_' + branchCount + '" value="kancelaria"><label>Kancelaria / Administrativa</label></div>' +
                 '<div class="checkbox-item"><input type="checkbox" name="branch_type_' + branchCount + '" value="vyrobna"><label>Vyrobna</label></div>' +
                 '<div class="checkbox-item"><input type="checkbox" name="branch_type_' + branchCount + '" value="servis"><label>Servisne stredisko</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" name="branch_type_' + branchCount + '" value="eventova_agentura"><label>Eventova agentura</label></div>' +
                 '<div class="checkbox-item"><input type="checkbox" name="branch_type_' + branchCount + '" value="ine"><label>Ine</label></div>' +
                 '</div>' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<label>Poznamka (volitelne)</label>' +
-                '<input type="text" name="branch_info_' + branchCount + '" placeholder="Doplnujuce informacie...">' +
+                '<textarea name="branch_info_' + branchCount + '" rows="2" placeholder="Doplnujuce informacie..."></textarea>' +
                 '</div>';
             newBranchBox.innerHTML = html;
             container.appendChild(newBranchBox);
@@ -1739,6 +2081,7 @@ NEW_CUSTOMER_HTML = '''
                     content += '<label style="display: flex; align-items: center; gap: 4px; font-size: 0.9em;"><input type="checkbox" name="confirm_branch_type_' + idx + '" value="kancelaria"' + (branchTypes.includes('kancelaria') ? ' checked' : '') + '> Kancelaria</label>';
                     content += '<label style="display: flex; align-items: center; gap: 4px; font-size: 0.9em;"><input type="checkbox" name="confirm_branch_type_' + idx + '" value="vyrobna"' + (branchTypes.includes('vyrobna') ? ' checked' : '') + '> Vyrobna</label>';
                     content += '<label style="display: flex; align-items: center; gap: 4px; font-size: 0.9em;"><input type="checkbox" name="confirm_branch_type_' + idx + '" value="servis"' + (branchTypes.includes('servis') ? ' checked' : '') + '> Servis</label>';
+                    content += '<label style="display: flex; align-items: center; gap: 4px; font-size: 0.9em;"><input type="checkbox" name="confirm_branch_type_' + idx + '" value="eventova_agentura"' + (branchTypes.includes('eventova_agentura') ? ' checked' : '') + '> Eventova agentura</label>';
                     content += '<label style="display: flex; align-items: center; gap: 4px; font-size: 0.9em;"><input type="checkbox" name="confirm_branch_type_' + idx + '" value="ine"' + (branchTypes.includes('ine') ? ' checked' : '') + '> Ine</label>';
                     content += '</div>';
                     content += '</div>';
@@ -1940,20 +2283,20 @@ CUSTOMERS_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             padding: 20px;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
         h1 {
-            color: #667eea;
+            color: #74b9ff;
             margin-bottom: 30px;
             text-align: center;
             font-size: 2.5em;
@@ -1967,18 +2310,18 @@ CUSTOMERS_HTML = '''
             gap: 15px;
         }
         .nav-link {
-            color: #667eea;
+            color: #74b9ff;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
         .nav-link:hover {
-            color: #764ba2;
+            color: #81ecec;
         }
         .add-button {
             display: inline-block;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white;
             text-decoration: none;
             border-radius: 10px;
@@ -1988,20 +2331,20 @@ CUSTOMERS_HTML = '''
         }
         .add-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 20px rgba(116,185,255,0.4);
         }
         .customer-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 20px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #74b9ff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .customer-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
         .customer-header {
             display: flex;
@@ -2010,13 +2353,13 @@ CUSTOMERS_HTML = '''
             margin-bottom: 15px;
         }
         .customer-name {
-            color: #667eea;
+            color: #74b9ff;
             font-size: 1.5em;
             font-weight: 600;
         }
         .customer-type {
-            background: #764ba2;
-            color: white;
+            background: #81ecec;
+            color: #1e272e;
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.85em;
@@ -2028,51 +2371,51 @@ CUSTOMERS_HTML = '''
             margin-bottom: 15px;
         }
         .info-item {
-            color: #555;
+            color: #b2bec3;
         }
         .info-label {
             font-weight: 600;
-            color: #333;
+            color: #dfe6e9;
             display: block;
             margin-bottom: 5px;
         }
         .customer-date {
-            color: #999;
+            color: #636e72;
             font-size: 0.9em;
             margin-top: 10px;
         }
         .no-customers {
             text-align: center;
             padding: 60px 20px;
-            color: #999;
+            color: #636e72;
         }
         .no-customers-icon {
             font-size: 4em;
             margin-bottom: 20px;
         }
         .company-items {
-            background: white;
+            background: #2d3436;
             border-radius: 10px;
             padding: 15px;
             margin-top: 10px;
         }
         .company-item {
-            background: #f8f9fa;
+            background: #353b48;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 10px;
-            border-left: 3px solid #667eea;
+            border-left: 3px solid #74b9ff;
         }
         .company-item:last-child {
             margin-bottom: 0;
         }
         .company-name {
             font-weight: 600;
-            color: #333;
+            color: #dfe6e9;
             margin-bottom: 5px;
         }
         .company-ico {
-            color: #666;
+            color: #b2bec3;
             font-size: 0.9em;
             margin-bottom: 8px;
         }
@@ -2082,11 +2425,109 @@ CUSTOMERS_HTML = '''
             gap: 5px;
         }
         .business-tag {
-            background: #667eea;
-            color: white;
+            background: #74b9ff;
+            color: #1e272e;
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 0.8em;
+        }
+        .stats {
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .stats-number {
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+        .customer-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #636e72;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .action-btn.edit {
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+            color: white;
+        }
+        .action-btn.edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(116,185,255,0.4);
+        }
+        .action-btn.delete {
+            background: linear-gradient(135deg, #d63031 0%, #ff7675 100%);
+            color: white;
+        }
+        .action-btn.delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(214,48,49,0.4);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #1e272e;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        .modal-title {
+            color: #dfe6e9;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .modal-btn.cancel {
+            background: #636e72;
+            color: white;
+        }
+        .modal-btn.confirm {
+            background: #d63031;
+            color: white;
         }
     </style>
 </head>
@@ -2134,9 +2575,9 @@ CUSTOMERS_HTML = '''
                 
                 <!-- Počiatočný súhrn -->
                 {% if customer.initial_summary %}
-                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 12px; border-radius: 8px; margin-top: 12px; border-left: 4px solid #ff9800;">
-                    <h4 style="color: #ff6f00; margin-top: 0; margin-bottom: 8px; font-size: 0.95em;">📝 Súhrn zo stretnutia:</h4>
-                    <p style="margin: 0; color: #333; font-size: 0.9em; line-height: 1.4;">{{ customer.initial_summary }}</p>
+                <div style="background: linear-gradient(135deg, #2d3436 0%, #353b48 100%); padding: 12px; border-radius: 8px; margin-top: 12px; border-left: 4px solid #ff9800;">
+                    <h4 style="color: #ffd93d; margin-top: 0; margin-bottom: 8px; font-size: 0.95em;">📝 Súhrn zo stretnutia:</h4>
+                    <p style="margin: 0; color: #dfe6e9; font-size: 0.9em; line-height: 1.4;">{{ customer.initial_summary }}</p>
                 </div>
                 {% endif %}
                 
@@ -2166,16 +2607,16 @@ CUSTOMERS_HTML = '''
                 <!-- Pobočky zákazníka -->
                 {% if customer.branches %}
                 <div class="company-items" style="margin-top: 15px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px; font-size: 1em;">🏪 Pobočky:</h3>
+                    <h3 style="color: #74b9ff; margin-bottom: 10px; font-size: 1em;">🏪 Pobočky:</h3>
                     {% for branch in customer.branches %}
-                    <div class="company-item" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-left: 4px solid #667eea;">
-                        <div class="company-name" style="font-size: 1em; color: #333;">{{ branch.name }}</div>
-                        <div class="company-ico" style="color: #666;">📍 {{ branch.address }}</div>
+                    <div class="company-item" style="background: linear-gradient(135deg, #353b48 0%, #2d3436 100%); border-left: 4px solid #74b9ff;">
+                        <div class="company-name" style="font-size: 1em; color: #dfe6e9;">{{ branch.name }}</div>
+                        <div class="company-ico" style="color: #b2bec3;">📍 {{ branch.address }}</div>
                         <div class="business-types" style="margin-top: 5px;">
-                            <span class="business-tag" style="background: #667eea; color: white;">{{ branch.branch_type }}</span>
+                            <span class="business-tag" style="background: #74b9ff; color: #1e272e;">{{ branch.branch_type }}</span>
                         </div>
                         {% if branch.additional_info %}
-                        <div style="margin-top: 8px; padding: 8px; background: rgba(255,255,255,0.7); border-radius: 4px; font-size: 0.85em; color: #555;">
+                        <div style="margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px; font-size: 0.85em; color: #b2bec3;">
                             💡 {{ branch.additional_info }}
                         </div>
                         {% endif %}
@@ -2187,16 +2628,547 @@ CUSTOMERS_HTML = '''
                 <div class="customer-date">
                     📅 Vytvorené: {{ customer.created_at }}
                 </div>
+                
+                <div class="customer-actions">
+                    <a href="/customer/{{ customer.id }}/edit" class="action-btn edit">✏️ Upraviť</a>
+                    <button class="action-btn delete" onclick="confirmDelete({{ customer.id }}, '{{ customer.name }}')">🗑️ Zmazať</button>
+                </div>
             </div>
             {% endfor %}
         {% else %}
             <div class="no-customers">
                 <div class="no-customers-icon">👤</div>
-                <h2>Zatiaľ žiadni zákazníci</h2>
-                <p style="margin-top: 10px;">Začnite pridaním prvého zákazníka</p>
+                <h2 style="color: #dfe6e9;">Zatiaľ žiadni zákazníci</h2>
+                <p style="margin-top: 10px; color: #b2bec3;">Začnite pridaním prvého zákazníka</p>
             </div>
         {% endif %}
     </div>
+    
+    <!-- Modal pre potvrdenie zmazania -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h2 class="modal-title">🗑️ Zmazať zákazníka?</h2>
+            <p style="color: #b2bec3;" id="deleteMessage">Ste si istí, že chcete zmazať tohto zákazníka?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeDeleteModal()">Zrušiť</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    <button type="submit" class="modal-btn confirm">Zmazať</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function confirmDelete(customerId, customerName) {
+            document.getElementById('deleteMessage').textContent = 
+                'Ste si istí, že chcete zmazať zákazníka "' + customerName + '"? Táto akcia je nevratná.';
+            document.getElementById('deleteForm').action = '/customer/' + customerId + '/delete';
+            document.getElementById('deleteModal').classList.add('active');
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+        }
+        
+        // Zatvor modal kliknutím mimo
+        document.getElementById('deleteModal').onclick = function(e) {
+            if (e.target === this) closeDeleteModal();
+        }
+    </script>
+</body>
+</html>
+'''
+
+# HTML šablóna pre editáciu zákazníka
+CUSTOMER_EDIT_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | Upraviť zákazníka</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: #1e272e;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #74b9ff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2em;
+        }
+        .nav-links {
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .nav-link {
+            color: #74b9ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #81ecec;
+        }
+        .form-section {
+            background: #2d3436;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #74b9ff;
+        }
+        .form-section h2 {
+            color: #81ecec;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #b2bec3;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #636e72;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #1e272e;
+            color: #dfe6e9;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #74b9ff;
+        }
+        .company-box, .branch-box {
+            background: #353b48;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #74b9ff;
+            position: relative;
+        }
+        .branch-box {
+            border-left-color: #81ecec;
+        }
+        .company-box h3, .branch-box h3 {
+            color: #81ecec;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d63031;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        .remove-btn:hover {
+            background: #c0392b;
+        }
+        .add-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .add-btn:hover {
+            background: #00a383;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            color: #dfe6e9;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            flex: 1;
+        }
+        .btn-cancel {
+            background: #636e72;
+            color: white;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .message.success {
+            background: #00b894;
+            color: white;
+        }
+        .message.error {
+            background: #d63031;
+            color: white;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 600px) {
+            .row { grid-template-columns: 1fr; }
+            .checkbox-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✏️ Upraviť zákazníka</h1>
+        <div class="nav-links">
+            <a href="/customers" class="nav-link">← Späť na zákazníkov</a>
+        </div>
+        
+        {% if success_message %}
+        <div class="message success">{{ success_message }}</div>
+        {% endif %}
+        {% if error_message %}
+        <div class="message error">{{ error_message }}</div>
+        {% endif %}
+        
+        <form method="POST">
+            <!-- Kontaktné údaje -->
+            <div class="form-section">
+                <h2>👤 Kontaktné údaje</h2>
+                <div class="form-group">
+                    <label>Meno kontaktnej osoby *</label>
+                    <input type="text" name="name" value="{{ customer.name }}" required>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ customer.contact_email or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefón</label>
+                        <input type="tel" name="phone" value="{{ customer.contact_phone or '' }}">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Súhrn zo stretnutia -->
+            <div class="form-section">
+                <h2>📝 Súhrn zo stretnutia</h2>
+                <div class="form-group">
+                    <textarea name="initial_summary" rows="5" placeholder="Poznámky zo stretnutia so zákazníkom...">{{ customer.initial_summary or '' }}</textarea>
+                </div>
+            </div>
+            
+            <!-- Firmy -->
+            <div class="form-section">
+                <h2>🏢 Firmy</h2>
+                <div id="companiesContainer">
+                    {% for company in companies %}
+                    <div class="company-box" data-company-index="{{ loop.index0 }}">
+                        <button type="button" class="remove-btn" onclick="removeCompany(this)">✕ Odstrániť</button>
+                        <h3>🏢 Firma č. {{ loop.index }}</h3>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Názov firmy</label>
+                                <input type="text" name="company_name_{{ loop.index0 }}" value="{{ company.name or '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>IČO</label>
+                                <input type="text" name="company_ico_{{ loop.index0 }}" value="{{ company.ico or '' }}">
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="company-box" data-company-index="0">
+                        <h3>🏢 Firma č. 1</h3>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Názov firmy</label>
+                                <input type="text" name="company_name_0" value="{{ customer.company_name or '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>IČO</label>
+                                <input type="text" name="company_ico_0" value="">
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="add-btn" onclick="addCompany()">➕ Pridať ďalšiu firmu</button>
+            </div>
+            
+            <!-- Pobočky -->
+            <div class="form-section">
+                <h2>🏪 Pobočky</h2>
+                <div id="branchesContainer">
+                    {% for branch in branches %}
+                    <div class="branch-box">
+                        <h3>📍 Pobočka č. {{ loop.index }}</h3>
+                        <div class="form-group">
+                            <label>Názov pobočky</label>
+                            <input type="text" name="branch_name_{{ branch.id }}" value="{{ branch.name }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Adresa</label>
+                            <input type="text" name="branch_address_{{ branch.id }}" value="{{ branch.address or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Typ podnikania</label>
+                            <div class="checkbox-group">
+                                {% set current_types = (branch.branch_type or '').split(',') %}
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="restauracia" {{ 'checked' if 'restauracia' in current_types else '' }}>
+                                    <label>Reštaurácia / Gastronómia</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="obchod" {{ 'checked' if 'obchod' in current_types else '' }}>
+                                    <label>Kamenný obchod</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="eshop" {{ 'checked' if 'eshop' in current_types else '' }}>
+                                    <label>E-shop / Online predaj</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="sklad" {{ 'checked' if 'sklad' in current_types else '' }}>
+                                    <label>Sklad</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="kancelaria" {{ 'checked' if 'kancelaria' in current_types else '' }}>
+                                    <label>Kancelária / Administratíva</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="vyrobna" {{ 'checked' if 'vyrobna' in current_types else '' }}>
+                                    <label>Výrobňa</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="servis" {{ 'checked' if 'servis' in current_types else '' }}>
+                                    <label>Servisné stredisko</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="eventova_agentura" {{ 'checked' if 'eventova_agentura' in current_types else '' }}>
+                                    <label>Eventová agentúra</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="branch_type_{{ branch.id }}" value="ine" {{ 'checked' if 'ine' in current_types else '' }}>
+                                    <label>Iné</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Poznámka</label>
+                            <textarea name="branch_info_{{ branch.id }}" rows="2">{{ branch.additional_info or '' }}</textarea>
+                        </div>
+                        <input type="hidden" name="branch_ids" value="{{ branch.id }}">
+                    </div>
+                    {% else %}
+                    <p id="noBranchesMsg" style="color: #b2bec3; padding: 10px;">Zatiaľ nie sú pridané žiadne pobočky.</p>
+                    {% endfor %}
+                </div>
+                <button type="button" class="add-btn" onclick="addBranch()">➕ Pridať pobočku</button>
+            </div>
+            
+            <!-- Požiadavky a termín -->
+            <div class="form-section">
+                <h2>📋 Požiadavky</h2>
+                <div class="form-group">
+                    <label>Čo zákazník očakáva od informačného systému?</label>
+                    <textarea name="expectations" rows="4" placeholder="Popíšte požiadavky zákazníka...">{{ expectations or '' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Plánovaný termín nasadenia</label>
+                    <input type="text" name="timeline" value="{{ timeline or '' }}" placeholder="Napr. Do 3 mesiacov">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <a href="/customers" style="text-decoration: none;">
+                    <button type="button" class="btn-cancel">Zrušiť</button>
+                </a>
+                <button type="submit" class="btn-save">💾 Uložiť zmeny</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        let companyCount = {{ companies|length if companies else 1 }};
+        
+        function addCompany() {
+            const container = document.getElementById('companiesContainer');
+            const newBox = document.createElement('div');
+            newBox.className = 'company-box';
+            newBox.setAttribute('data-company-index', companyCount);
+            newBox.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeCompany(this)">✕ Odstrániť</button>
+                <h3>🏢 Firma č. ${companyCount + 1}</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Názov firmy</label>
+                        <input type="text" name="company_name_${companyCount}" placeholder="Napr. ABC s.r.o.">
+                    </div>
+                    <div class="form-group">
+                        <label>IČO</label>
+                        <input type="text" name="company_ico_${companyCount}" placeholder="Napr. 12345678">
+                    </div>
+                </div>
+            `;
+            container.appendChild(newBox);
+            companyCount++;
+        }
+        
+        function removeCompany(btn) {
+            const box = btn.closest('.company-box');
+            if (document.querySelectorAll('.company-box').length > 1) {
+                box.remove();
+                renumberCompanies();
+            } else {
+                alert('Musí zostať aspoň jedna firma.');
+            }
+        }
+        
+        function renumberCompanies() {
+            const boxes = document.querySelectorAll('.company-box');
+            boxes.forEach((box, index) => {
+                box.querySelector('h3').textContent = `🏢 Firma č. ${index + 1}`;
+            });
+        }
+        
+        // Pobočky - pridávanie nových
+        let newBranchCount = 0;
+        
+        function addBranch() {
+            const container = document.getElementById('branchesContainer');
+            
+            // Skry správu "Zatiaľ nie sú pridané žiadne pobočky"
+            const noMsg = document.getElementById('noBranchesMsg');
+            if (noMsg) noMsg.style.display = 'none';
+            
+            const newBox = document.createElement('div');
+            newBox.className = 'branch-box';
+            newBox.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeBranch(this)">✕ Odstrániť</button>
+                <h3>📍 Nová pobočka</h3>
+                <div class="form-group">
+                    <label>Názov pobočky</label>
+                    <input type="text" name="new_branch_name_${newBranchCount}" placeholder="Napr. Reštaurácia Centrum">
+                </div>
+                <div class="form-group">
+                    <label>Adresa</label>
+                    <input type="text" name="new_branch_address_${newBranchCount}" placeholder="Napr. Hlavná 123, Bratislava">
+                </div>
+                <div class="form-group">
+                    <label>Typ podnikania</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="restauracia">
+                            <label>Reštaurácia / Gastronómia</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="obchod">
+                            <label>Kamenný obchod</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="eshop">
+                            <label>E-shop / Online predaj</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="sklad">
+                            <label>Sklad</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="kancelaria">
+                            <label>Kancelária / Administratíva</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="vyrobna">
+                            <label>Výrobňa</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="servis">
+                            <label>Servisné stredisko</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="eventova_agentura">
+                            <label>Eventová agentúra</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="new_branch_type_${newBranchCount}" value="ine">
+                            <label>Iné</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Poznámka</label>
+                    <textarea name="new_branch_info_${newBranchCount}" rows="2" placeholder="Doplňujúce informácie..."></textarea>
+                </div>
+                <input type="hidden" name="new_branch_ids" value="${newBranchCount}">
+            `;
+            container.appendChild(newBox);
+            newBranchCount++;
+        }
+        
+        function removeBranch(btn) {
+            const box = btn.closest('.branch-box');
+            box.remove();
+        }
+    </script>
 </body>
 </html>
 '''
@@ -2213,103 +3185,109 @@ SERVICE_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh;
             padding: 20px;
         }
         .container {
-            background: white;
+            background: #1e272e;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        h1 { color: #667eea; margin-bottom: 10px; text-align: center; font-size: 2.5em; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        h1 { color: #74b9ff; margin-bottom: 10px; text-align: center; font-size: 2.5em; }
+        .subtitle { text-align: center; color: #b2bec3; margin-bottom: 30px; }
         .nav-links {
             margin-bottom: 30px; text-align: center;
             display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
         }
-        .nav-link { color: #667eea; text-decoration: none; font-weight: 600; transition: color 0.3s; }
-        .nav-link:hover { color: #764ba2; }
+        .nav-link { color: #74b9ff; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .nav-link:hover { color: #81ecec; }
         
         .case-list { margin-top: 20px; }
         .case-item {
             display: flex; align-items: center; gap: 15px;
             padding: 20px; margin-bottom: 10px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px; border-left: 5px solid #667eea;
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
+            border-radius: 12px; border-left: 5px solid #74b9ff;
             cursor: pointer; transition: all 0.3s;
         }
-        .case-item:hover { transform: translateX(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .case-item:hover { transform: translateX(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .case-icon { font-size: 2em; }
         .case-info { flex: 1; }
-        .case-title { font-size: 1.2em; font-weight: 600; color: #333; }
-        .case-desc { color: #666; font-size: 0.95em; margin-top: 5px; }
-        .case-meta { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85em; color: #888; }
-        .case-arrow { color: #667eea; font-size: 1.5em; }
+        .case-title { font-size: 1.2em; font-weight: 600; color: #dfe6e9; }
+        .case-desc { color: #b2bec3; font-size: 0.95em; margin-top: 5px; }
+        .case-meta { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85em; color: #636e72; }
+        .case-arrow { color: #74b9ff; font-size: 1.5em; }
         
         .add-btn {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 25px; background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white; border: none; border-radius: 25px;
             font-weight: 600; cursor: pointer; transition: all 0.3s;
             text-decoration: none; margin-bottom: 20px;
         }
-        .add-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+        .add-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(116,185,255,0.4); }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                 background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+                 background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content {
-            background: white; border-radius: 15px; padding: 30px;
+            background: #1e272e; border-radius: 15px; padding: 30px;
             max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-title { font-size: 1.4em; color: #667eea; }
-        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #999; }
+        .modal-title { font-size: 1.4em; color: #74b9ff; }
+        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #636e72; }
+        .close-btn:hover { color: #dfe6e9; }
         
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #b2bec3; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;
+            width: 100%; padding: 12px; border: 2px solid #636e72; border-radius: 8px; font-size: 1em;
+            background: #2d3436; color: #dfe6e9;
         }
-        .form-group input:focus, .form-group textarea:focus { border-color: #667eea; outline: none; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #74b9ff; outline: none; }
         .submit-btn {
-            width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
         }
         
-        .no-cases { text-align: center; padding: 60px 20px; color: #999; }
+        .no-cases { text-align: center; padding: 60px 20px; color: #636e72; }
         .no-cases-icon { font-size: 4em; margin-bottom: 20px; }
+        .no-cases h2 { color: #dfe6e9; }
+        .no-cases p { color: #b2bec3; }
         
         .search-box {
             display: flex; gap: 10px; margin-bottom: 25px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             padding: 15px; border-radius: 15px;
         }
         .search-input {
-            flex: 1; padding: 12px 20px; border: 2px solid #e0e0e0;
+            flex: 1; padding: 12px 20px; border: 2px solid #636e72;
             border-radius: 25px; font-size: 1em; outline: none;
+            background: #1e272e; color: #dfe6e9;
         }
-        .search-input:focus { border-color: #667eea; }
+        .search-input:focus { border-color: #74b9ff; }
+        .search-input::placeholder { color: #636e72; }
         .search-btn {
-            padding: 12px 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 25px; background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white; border: none; border-radius: 25px;
             font-weight: 600; cursor: pointer; transition: all 0.3s;
         }
         .search-btn:hover { transform: scale(1.05); }
         .clear-btn {
-            padding: 12px 20px; background: #6c757d; color: white;
+            padding: 12px 20px; background: #636e72; color: white;
             border: none; border-radius: 25px; cursor: pointer;
             text-decoration: none; font-weight: 600;
         }
         .search-results {
-            background: #e3f2fd; padding: 10px 20px; border-radius: 10px;
-            margin-bottom: 20px; color: #1565c0;
+            background: #2d3436; padding: 10px 20px; border-radius: 10px;
+            margin-bottom: 20px; color: #74b9ff; border-left: 4px solid #74b9ff;
         }
-        .highlight { background: #fff176; padding: 0 3px; border-radius: 3px; }
+        .highlight { background: #ffd93d; padding: 0 3px; border-radius: 3px; color: #1e272e; }
     </style>
 </head>
 <body>
@@ -2423,32 +3401,32 @@ SERVICE_DETAIL_HTML = '''
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
             min-height: 100vh; padding: 20px;
         }
         .container {
-            background: white; border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: #1e272e; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px; max-width: 1000px; margin: 0 auto;
         }
-        .back-link { color: #667eea; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 20px; }
-        .back-link:hover { color: #764ba2; }
-        h1 { color: #667eea; margin-bottom: 10px; font-size: 2em; }
-        .case-meta { color: #666; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
-        .case-desc { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; line-height: 1.6; }
+        .back-link { color: #74b9ff; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 20px; }
+        .back-link:hover { color: #81ecec; }
+        h1 { color: #74b9ff; margin-bottom: 10px; font-size: 2em; }
+        .case-meta { color: #b2bec3; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .case-desc { background: #2d3436; padding: 20px; border-radius: 10px; margin-bottom: 30px; line-height: 1.6; color: #dfe6e9; }
         
-        .section-title { color: #667eea; font-size: 1.4em; margin: 30px 0 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .section-title { color: #74b9ff; font-size: 1.4em; margin: 30px 0 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         
         .steps-list { margin-bottom: 30px; }
         .step-item {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #2d3436 0%, #353b48 100%);
             border-radius: 12px; padding: 20px; margin-bottom: 15px;
-            border-left: 5px solid #28a745;
+            border-left: 5px solid #00b894;
             transition: all 0.3s;
         }
         .step-item.decision {
-            border-left-color: #007bff;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left-color: #74b9ff;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d3436 100%);
         }
         .step-item.branched {
             margin-left: 30px;
@@ -2467,27 +3445,27 @@ SERVICE_DETAIL_HTML = '''
         }
         .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         .step-number {
-            width: 35px; height: 35px; background: #28a745; color: white;
+            width: 35px; height: 35px; background: #00b894; color: white;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-weight: bold; font-size: 1.1em;
         }
-        .step-item.decision .step-number { background: #007bff; }
-        .step-title { font-weight: 600; font-size: 1.1em; color: #333; flex: 1; }
-        .step-desc { color: #555; line-height: 1.6; margin-left: 50px; }
+        .step-item.decision .step-number { background: #74b9ff; }
+        .step-title { font-weight: 600; font-size: 1.1em; color: #dfe6e9; flex: 1; }
+        .step-desc { color: #b2bec3; line-height: 1.6; margin-left: 50px; }
         .step-image { margin-top: 15px; margin-left: 50px; }
-        .step-image img { max-width: 100%; border-radius: 8px; box-shadow: 0 3px 15px rgba(0,0,0,0.15); }
+        .step-image img { max-width: 100%; border-radius: 8px; box-shadow: 0 3px 15px rgba(0,0,0,0.3); }
         
         /* Vetvenie - výber možností */
         .branch-selector {
             margin: 15px 0 15px 50px;
             padding: 15px;
-            background: white;
+            background: #2d3436;
             border-radius: 10px;
-            border: 2px solid #007bff;
+            border: 2px solid #74b9ff;
         }
         .branch-selector-title {
             font-weight: 600;
-            color: #007bff;
+            color: #74b9ff;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -2522,51 +3500,53 @@ SERVICE_DETAIL_HTML = '''
             margin-left: 10px;
         }
         
-        .complications-section { background: #fff3cd; border-radius: 12px; padding: 25px; border-left: 5px solid #ffc107; }
+        .complications-section { background: #3d3d00; border-radius: 12px; padding: 25px; border-left: 5px solid #ffd93d; }
         .complication-group { margin-bottom: 20px; }
-        .complication-group-title { font-weight: 600; color: #856404; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .complication-group-title { font-weight: 600; color: #ffd93d; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .branched-comp { opacity: 0.7; transition: opacity 0.3s; }
         .branched-comp.highlight { opacity: 1; }
-        .complication-item { background: white; border-radius: 8px; padding: 15px; margin-top: 15px; }
-        .complication-title { font-weight: 600; color: #856404; margin-bottom: 10px; }
-        .complication-desc { color: #666; margin-bottom: 10px; }
-        .complication-solution { background: #d4edda; padding: 12px; border-radius: 6px; color: #155724; }
-        .complication-solution strong { display: block; margin-bottom: 5px; }
+        .complication-item { background: #2d3436; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .complication-title { font-weight: 600; color: #ffd93d; margin-bottom: 10px; }
+        .complication-desc { color: #b2bec3; margin-bottom: 10px; }
+        .complication-solution { background: #1e4620; padding: 12px; border-radius: 6px; color: #81ecec; }
+        .complication-solution strong { display: block; margin-bottom: 5px; color: #00b894; }
         
         .add-btn {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px 20px; background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white; border: none; border-radius: 20px;
             font-weight: 600; cursor: pointer; text-decoration: none; font-size: 0.9em;
         }
         .add-btn:hover { transform: scale(1.05); }
-        .add-btn.warning { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: #333; }
-        .add-btn.success { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
-        .add-btn.info { background: linear-gradient(135deg, #17a2b8 0%, #007bff 100%); }
+        .add-btn.warning { background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: #1e272e; }
+        .add-btn.success { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); }
+        .add-btn.info { background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%); }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                 background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+                 background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content {
-            background: white; border-radius: 15px; padding: 30px;
+            background: #1e272e; border-radius: 15px; padding: 30px;
             max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-title { font-size: 1.3em; color: #667eea; }
-        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #999; }
+        .modal-title { font-size: 1.3em; color: #74b9ff; }
+        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #636e72; }
+        .close-btn:hover { color: #dfe6e9; }
         
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #667eea; outline: none; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #b2bec3; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #636e72; border-radius: 8px; background: #2d3436; color: #dfe6e9; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #74b9ff; outline: none; }
         .form-group.checkbox-group { display: flex; align-items: center; gap: 10px; }
         .form-group.checkbox-group input { width: auto; }
+        .form-group.checkbox-group label { color: #dfe6e9; }
         .submit-btn {
-            width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
             color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
         }
         
-        .no-items { text-align: center; padding: 30px; color: #999; font-style: italic; }
+        .no-items { text-align: center; padding: 30px; color: #636e72; font-style: italic; }
         
         .color-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
         .color-option {
@@ -3255,6 +4235,91 @@ def wiki():
         error_message=error_message
     )
 
+@app.route('/wiki/admin', methods=['GET', 'POST'])
+def wiki_admin():
+    """Admin stránka pre správu modulov."""
+    import sqlite3
+    db_path = 'database/is_data.db'
+    success_message = None
+    error_message = None
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        try:
+            with sqlite3.connect(db_path) as conn:
+                c = conn.cursor()
+                if action == 'add_module':
+                    c.execute(
+                        "INSERT INTO modules (name, description) VALUES (?, ?)",
+                        (request.form.get('name'), request.form.get('description', ''))
+                    )
+                    success_message = "Modul bol pridaný."
+                elif action == 'add_submodule':
+                    c.execute(
+                        """
+                        INSERT INTO modules (name, description, parent_module_id)
+                        VALUES (?, ?, ?)
+                        """,
+                        (
+                            request.form.get('name'),
+                            request.form.get('description', ''),
+                            request.form.get('parent_module_id')
+                        )
+                    )
+                    success_message = "Podmodul bol pridaný."
+                elif action == 'add_functionality':
+                    c.execute(
+                        """
+                        INSERT INTO functionalities (module_id, name, description, code_example)
+                        VALUES (?, ?, ?, ?)
+                        """,
+                        (
+                            request.form.get('module_id'),
+                            request.form.get('name'),
+                            request.form.get('description', ''),
+                            request.form.get('code_example', '')
+                        )
+                    )
+                    success_message = "Funkcionalita bola pridaná."
+                elif action == 'add_relationship':
+                    c.execute(
+                        """
+                        INSERT INTO module_relationships (module_from_id, module_to_id, relationship_type, description)
+                        VALUES (?, ?, ?, ?)
+                        """,
+                        (
+                            request.form.get('module_from_id'),
+                            request.form.get('module_to_id'),
+                            request.form.get('relationship_type', ''),
+                            request.form.get('description', '')
+                        )
+                    )
+                    success_message = "Súvislosť bola pridaná."
+                conn.commit()
+        except Exception as exc:
+            error_message = f"Chyba pri ukladaní: {exc}"
+
+    # Načítaj moduly pre formuláre
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        c.execute("SELECT id, name, description, parent_module_id FROM modules ORDER BY name")
+        modules_raw = c.fetchall()
+        all_modules = [dict(m) for m in modules_raw]
+        
+        c.execute("SELECT COUNT(*) as cnt FROM functionalities")
+        total_functionalities = c.fetchone()['cnt']
+
+    return render_template_string(
+        WIKI_ADMIN_HTML,
+        all_modules=all_modules,
+        total_modules=len(all_modules),
+        total_functionalities=total_functionalities,
+        success_message=success_message,
+        error_message=error_message
+    )
+
 @app.route('/ai-parse-summary', methods=['POST'])
 def ai_parse_summary():
     """AI parseuje počiatočný súhrn a extrahuje údaje."""
@@ -3476,10 +4541,12 @@ def new_customer():
         while f'branch_name_{branch_index}' in request.form:
             branch_name = request.form.get(f'branch_name_{branch_index}', '').strip()
             branch_address = request.form.get(f'branch_address_{branch_index}', '').strip()
-            branch_type = request.form.get(f'branch_type_{branch_index}', '').strip()
+            # Checkboxy - použijem getlist pre viacnásobný výber
+            branch_types = request.form.getlist(f'branch_type_{branch_index}')
+            branch_type = ','.join(branch_types) if branch_types else ''
             branch_info = request.form.get(f'branch_info_{branch_index}', '').strip()
             
-            if branch_name and branch_address and branch_type:  # Ulož len ak má názov, adresu a typ
+            if branch_name:  # Ulož ak má aspoň názov
                 branches.append({
                     'name': branch_name,
                     'address': branch_address,
@@ -3573,6 +4640,170 @@ def customers():
         customers_list.append(cust_dict)
     
     return render_template_string(CUSTOMERS_HTML, customers=customers_list)
+
+@app.route('/customer/<int:customer_id>/edit', methods=['GET', 'POST'])
+def customer_edit(customer_id):
+    """Editácia existujúceho zákazníka."""
+    import sqlite3
+    import json
+    
+    db_path = 'database/is_data.db'
+    success_message = None
+    error_message = None
+    
+    if request.method == 'POST':
+        try:
+            with sqlite3.connect(db_path) as conn:
+                c = conn.cursor()
+                
+                # Spracuj firmy z formulára
+                companies = []
+                company_index = 0
+                while f'company_name_{company_index}' in request.form:
+                    company_name = request.form.get(f'company_name_{company_index}', '').strip()
+                    company_ico = request.form.get(f'company_ico_{company_index}', '').strip()
+                    
+                    if company_name:  # Ulož ak má názov
+                        companies.append({
+                            'name': company_name,
+                            'ico': company_ico
+                        })
+                    company_index += 1
+                
+                # Vytvor questionnaire JSON
+                questionnaire = {
+                    'companies': companies,
+                    'expectations': request.form.get('expectations', ''),
+                    'timeline': request.form.get('timeline', '')
+                }
+                
+                # Prvá firma ako hlavný company_name
+                first_company_name = companies[0]['name'] if companies else ''
+                
+                # Aktualizuj základné údaje zákazníka
+                c.execute('''
+                    UPDATE customers 
+                    SET name = ?, contact_email = ?, contact_phone = ?, 
+                        initial_summary = ?, company_name = ?, questionnaire_data = ?
+                    WHERE id = ?
+                ''', (
+                    request.form.get('name'),
+                    request.form.get('email'),
+                    request.form.get('phone'),
+                    request.form.get('initial_summary'),
+                    first_company_name,
+                    json.dumps(questionnaire, ensure_ascii=False),
+                    customer_id
+                ))
+                
+                # Aktualizuj pobočky
+                branch_ids = request.form.getlist('branch_ids')
+                for branch_id in branch_ids:
+                    # Spracuj typ pobočky (môže byť viac checkboxov)
+                    branch_types = request.form.getlist(f'branch_type_{branch_id}')
+                    branch_type_str = ','.join(branch_types) if branch_types else ''
+                    
+                    c.execute('''
+                        UPDATE branches
+                        SET name = ?, address = ?, branch_type = ?, additional_info = ?
+                        WHERE id = ?
+                    ''', (
+                        request.form.get(f'branch_name_{branch_id}'),
+                        request.form.get(f'branch_address_{branch_id}'),
+                        branch_type_str,
+                        request.form.get(f'branch_info_{branch_id}'),
+                        branch_id
+                    ))
+                
+                # Pridaj nové pobočky
+                new_branch_ids = request.form.getlist('new_branch_ids')
+                for new_id in new_branch_ids:
+                    new_name = request.form.get(f'new_branch_name_{new_id}', '').strip()
+                    new_address = request.form.get(f'new_branch_address_{new_id}', '').strip()
+                    new_types = request.form.getlist(f'new_branch_type_{new_id}')
+                    new_type_str = ','.join(new_types) if new_types else ''
+                    new_info = request.form.get(f'new_branch_info_{new_id}', '').strip()
+                    
+                    if new_name:  # Ulož len ak má názov
+                        c.execute('''
+                            INSERT INTO branches (customer_id, name, address, branch_type, additional_info)
+                            VALUES (?, ?, ?, ?, ?)
+                        ''', (customer_id, new_name, new_address, new_type_str, new_info))
+                
+                conn.commit()
+                success_message = "Zákazník bol úspešne aktualizovaný."
+        except Exception as e:
+            error_message = f"Chyba pri ukladaní: {e}"
+    
+    # Načítaj zákazníka
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        c.execute('SELECT * FROM customers WHERE id = ?', (customer_id,))
+        customer = c.fetchone()
+        
+        if not customer:
+            return "Zákazník nebol nájdený", 404
+        
+        customer = dict(customer)
+        
+        # Načítaj pobočky
+        c.execute('SELECT * FROM branches WHERE customer_id = ? ORDER BY created_at', (customer_id,))
+        branches = [dict(b) for b in c.fetchall()]
+        
+        # Parsuj questionnaire data
+        companies = []
+        expectations = ''
+        timeline = ''
+        
+        if customer.get('questionnaire_data'):
+            try:
+                q_data = json.loads(customer['questionnaire_data'])
+                companies = q_data.get('companies', [])
+                expectations = q_data.get('expectations', '')
+                timeline = q_data.get('timeline', '')
+            except:
+                pass
+        
+        # Ak nie sú firmy v questionnaire, použi company_name
+        if not companies and customer.get('company_name'):
+            companies = [{'name': customer['company_name'], 'ico': ''}]
+    
+    return render_template_string(
+        CUSTOMER_EDIT_HTML,
+        customer=customer,
+        branches=branches,
+        companies=companies,
+        expectations=expectations,
+        timeline=timeline,
+        success_message=success_message,
+        error_message=error_message
+    )
+
+@app.route('/customer/<int:customer_id>/delete', methods=['POST'])
+def customer_delete(customer_id):
+    """Zmazanie zákazníka a jeho pobočiek."""
+    import sqlite3
+    
+    db_path = 'database/is_data.db'
+    
+    try:
+        with sqlite3.connect(db_path) as conn:
+            c = conn.cursor()
+            
+            # Najprv zmaž pobočky zákazníka
+            c.execute('DELETE FROM branches WHERE customer_id = ?', (customer_id,))
+            
+            # Potom zmaž zákazníka
+            c.execute('DELETE FROM customers WHERE id = ?', (customer_id,))
+            
+            conn.commit()
+    except Exception as e:
+        # Log error but redirect anyway
+        print(f"Chyba pri mazaní zákazníka: {e}")
+    
+    return redirect('/customers')
 
 # ============ ŠKOLENIA HTML ŠABLÓNY ============
 
