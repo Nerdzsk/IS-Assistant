@@ -492,92 +492,6 @@ WIKI_HTML = '''
         h1 {
             color: #667eea;
             margin-bottom: 30px;
-
-        {% if success_message %}
-        <div class="message success">{{ success_message }}</div>
-        {% endif %}
-        {% if error_message %}
-        <div class="message error">{{ error_message }}</div>
-        {% endif %}
-
-        <div class="admin-panel">
-            <h2>🛠️ Správa modulov (admin)</h2>
-            <div class="admin-note">Poznámka: Neskôr bude táto sekcia dostupná len pre administrátorov.</div>
-            <div class="admin-grid">
-                <div class="admin-card">
-                    <h3>➕ Nový modul</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_module">
-                        <label>Názov modulu</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" rows="3"></textarea>
-                        <button type="submit">Pridať modul</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>🧩 Nový podmodul</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_submodule">
-                        <label>Rodičovský modul</label>
-                        <select name="parent_module_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules if not m.parent_module_id %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Názov podmodulu</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" rows="3"></textarea>
-                        <button type="submit">Pridať podmodul</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>⚙️ Nová funkcionalita</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_functionality">
-                        <label>Modul / Podmodul</label>
-                        <select name="module_id" required>
-                            <option value="">-- vyber --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}{% if m.parent_module_id %} (podmodul){% endif %}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Názov funkcionality</label>
-                        <input name="name" required>
-                        <label>Popis</label>
-                        <textarea name="description" rows="3"></textarea>
-                        <button type="submit">Pridať funkcionalitu</button>
-                    </form>
-                </div>
-                <div class="admin-card">
-                    <h3>🔗 Nová súvislosť</h3>
-                    <form method="post">
-                        <input type="hidden" name="action" value="add_relationship">
-                        <label>Od modulu</label>
-                        <select name="module_from_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Na modul</label>
-                        <select name="module_to_id" required>
-                            <option value="">-- vyber modul --</option>
-                            {% for m in all_modules %}
-                            <option value="{{ m.id }}">{{ m.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label>Typ súvislosti</label>
-                        <input name="relationship_type" placeholder="napr. závisí od">
-                        <label>Popis</label>
-                        <textarea name="description" rows="3"></textarea>
-                        <button type="submit">Pridať súvislosť</button>
-                    </form>
-                </div>
-            </div>
-        </div>
             text-align: center;
             font-size: 2.5em;
         }
@@ -750,6 +664,52 @@ WIKI_HTML = '''
             font-size: 0.7em;
             opacity: 0.9;
         }
+        .voice-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .voice-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+        .voice-btn.record {
+            background: #ef5350;
+            color: white;
+        }
+        .voice-btn.record:hover {
+            background: #d32f2f;
+        }
+        .voice-btn.stop {
+            background: #ff9800;
+            color: white;
+        }
+        .voice-btn.stop:hover {
+            background: #f57c00;
+        }
+        .voice-status {
+            font-size: 0.8em;
+            color: #666;
+            padding: 4px 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .voice-status.recording {
+            background: #ffebee;
+            color: #c62828;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
@@ -762,6 +722,112 @@ WIKI_HTML = '''
             <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
             <a href="/service" class="nav-link">🔧 Servis</a>
             <a href="/training" class="nav-link">🎓 Školenia</a>
+        </div>
+        
+        {% if success_message %}
+        <div class="message success">{{ success_message }}</div>
+        {% endif %}
+        {% if error_message %}
+        <div class="message error">{{ error_message }}</div>
+        {% endif %}
+
+        <div class="admin-panel">
+            <h2>🛠️ Správa modulov (admin)</h2>
+            <div class="admin-note">Poznámka: Neskôr bude táto sekcia dostupná len pre administrátorov.</div>
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3>➕ Nový modul</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_module">
+                        <label>Názov modulu</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="moduleDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('moduleDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_moduleDesc" onclick="stopRecording('moduleDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_moduleDesc"></span>
+                        </div>
+                        <button type="submit">Pridať modul</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>🧩 Nový podmodul</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_submodule">
+                        <label>Rodičovský modul</label>
+                        <select name="parent_module_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules if not m.parent_module_id %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Názov podmodulu</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="submoduleDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('submoduleDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_submoduleDesc" onclick="stopRecording('submoduleDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_submoduleDesc"></span>
+                        </div>
+                        <button type="submit">Pridať podmodul</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>⚙️ Nová funkcionalita</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_functionality">
+                        <label>Modul / Podmodul</label>
+                        <select name="module_id" required>
+                            <option value="">-- vyber --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}{% if m.parent_module_id %} (podmodul){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Názov funkcionality</label>
+                        <input name="name" required>
+                        <label>Popis</label>
+                        <textarea name="description" id="funcDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('funcDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_funcDesc" onclick="stopRecording('funcDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_funcDesc"></span>
+                        </div>
+                        <button type="submit">Pridať funkcionalitu</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3>🔗 Nová súvislosť</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add_relationship">
+                        <label>Od modulu</label>
+                        <select name="module_from_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Na modul</label>
+                        <select name="module_to_id" required>
+                            <option value="">-- vyber modul --</option>
+                            {% for m in all_modules %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Typ súvislosti</label>
+                        <input name="relationship_type" placeholder="napr. závisí od">
+                        <label>Popis</label>
+                        <textarea name="description" id="relDesc" rows="3"></textarea>
+                        <div class="voice-controls">
+                            <button type="button" class="voice-btn record" onclick="startRecording('relDesc')">🎙️ Nahrať</button>
+                            <button type="button" class="voice-btn stop" id="stop_relDesc" onclick="stopRecording('relDesc')" style="display:none;">⏹ Stop</button>
+                            <span class="voice-status" id="status_relDesc"></span>
+                        </div>
+                        <button type="submit">Pridať súvislosť</button>
+                    </form>
+                </div>
+            </div>
         </div>
         
         <div class="stats">
@@ -803,7 +869,12 @@ WIKI_HTML = '''
                                 <label>Názov</label>
                                 <input name="name" value="{{ module.name }}" required>
                                 <label>Popis</label>
-                                <textarea name="description" rows="3">{{ module.description }}</textarea>
+                                <textarea name="description" id="editModuleDesc_{{ module.id }}" rows="3">{{ module.description }}</textarea>
+                                <div class="voice-controls">
+                                    <button type="button" class="voice-btn record" onclick="startRecording('editModuleDesc_{{ module.id }}')">🎙️ Nahrať</button>
+                                    <button type="button" class="voice-btn stop" id="stop_editModuleDesc_{{ module.id }}" onclick="stopRecording('editModuleDesc_{{ module.id }}')" style="display:none;">⏹ Stop</button>
+                                    <span class="voice-status" id="status_editModuleDesc_{{ module.id }}"></span>
+                                </div>
                                 <button type="submit">Uložiť zmeny</button>
                             </form>
                         </div>
@@ -855,7 +926,12 @@ WIKI_HTML = '''
                                         <label>Názov</label>
                                         <input name="name" value="{{ sub.name }}" required>
                                         <label>Popis</label>
-                                        <textarea name="description" rows="3">{{ sub.description }}</textarea>
+                                        <textarea name="description" id="editSubDesc_{{ sub.id }}" rows="3">{{ sub.description }}</textarea>
+                                        <div class="voice-controls">
+                                            <button type="button" class="voice-btn record" onclick="startRecording('editSubDesc_{{ sub.id }}')">🎙️ Nahrať</button>
+                                            <button type="button" class="voice-btn stop" id="stop_editSubDesc_{{ sub.id }}" onclick="stopRecording('editSubDesc_{{ sub.id }}')" style="display:none;">⏹ Stop</button>
+                                            <span class="voice-status" id="status_editSubDesc_{{ sub.id }}"></span>
+                                        </div>
                                         <button type="submit">Uložiť zmeny</button>
                                     </form>
                                 </div>
@@ -958,6 +1034,74 @@ WIKI_HTML = '''
                 detail.classList.add('collapsed');
                 arrow.classList.remove('expanded');
                 arrow.textContent = '▶';
+            }
+        }
+        
+        // Hlasové nahrávanie pomocou Web Speech API
+        let recognition = null;
+        let currentTextareaId = null;
+        
+        function startRecording(textareaId) {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Váš prehliadač nepodporuje hlasové nahrávanie. Použite Chrome alebo Edge.');
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'sk-SK';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            
+            currentTextareaId = textareaId;
+            const textarea = document.getElementById(textareaId);
+            const stopBtn = document.getElementById('stop_' + textareaId);
+            const status = document.getElementById('status_' + textareaId);
+            const recordBtn = event.target;
+            
+            recordBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+            status.textContent = '🔴 Nahrávam...';
+            status.classList.add('recording');
+            
+            let finalTranscript = textarea.value;
+            if (finalTranscript && !finalTranscript.endsWith(' ')) {
+                finalTranscript += ' ';
+            }
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript + ' ';
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                textarea.value = finalTranscript + interimTranscript;
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                status.textContent = 'Chyba: ' + event.error;
+                status.classList.remove('recording');
+            };
+            
+            recognition.onend = function() {
+                recordBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+                status.textContent = '✓ Hotovo';
+                status.classList.remove('recording');
+                textarea.value = finalTranscript.trim();
+            };
+            
+            recognition.start();
+        }
+        
+        function stopRecording(textareaId) {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
             }
         }
     </script>
