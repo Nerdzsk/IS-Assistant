@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, render_template_string, request, jsonify, redirect
 from modules.ai_assistant import AIAssistant
 
 app = Flask(__name__)
@@ -131,6 +131,7 @@ HTML = '''
         <a href="/wiki" class="nav-link">📚 Wiki / Štruktúra →</a>
         <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
         <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
+        <a href="/service" class="nav-link">🔧 Servis →</a>
         {% if vysledok %}
         <div class="result">
             <h2>Výsledok:</h2>
@@ -271,6 +272,7 @@ AI_CHAT_HTML = '''
         <a href="/wiki" class="nav-link">📚 Wiki / Štruktúra →</a>
         <a href="/new-customer" class="nav-link">👤 Nový zákazník →</a>
         <a href="/customers" class="nav-link">👥 Existujúci zákazníci →</a>
+        <a href="/service" class="nav-link">🔧 Servis →</a>
         {% if odpoved %}
         <div class="answer-box">
             <h2><span class="icon">🤖</span> Odpoveď AI:</h2>
@@ -756,6 +758,7 @@ WIKI_HTML = '''
             <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
             <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
             <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
         </div>
         
         <div class="stats">
@@ -1140,6 +1143,7 @@ NEW_CUSTOMER_HTML = '''
             <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
             <a href="/wiki" class="nav-link">📚 Wiki</a>
             <a href="/customers" class="nav-link">👥 Existujúci zákazníci</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
         </div>
         
         {% if success %}
@@ -1946,6 +1950,7 @@ CUSTOMERS_HTML = '''
             <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
             <a href="/wiki" class="nav-link">📚 Wiki</a>
             <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
+            <a href="/service" class="nav-link">🔧 Servis</a>
         </div>
         
         <div style="text-align: center;">
@@ -2043,6 +2048,825 @@ CUSTOMERS_HTML = '''
             </div>
         {% endif %}
     </div>
+</body>
+</html>
+'''
+
+# HTML šablóna pre SERVIS - prípadové štúdie
+SERVICE_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | Servis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #667eea; margin-bottom: 10px; text-align: center; font-size: 2.5em; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .nav-links {
+            margin-bottom: 30px; text-align: center;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
+        }
+        .nav-link { color: #667eea; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .nav-link:hover { color: #764ba2; }
+        
+        .case-list { margin-top: 20px; }
+        .case-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 20px; margin-bottom: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px; border-left: 5px solid #667eea;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .case-item:hover { transform: translateX(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .case-icon { font-size: 2em; }
+        .case-info { flex: 1; }
+        .case-title { font-size: 1.2em; font-weight: 600; color: #333; }
+        .case-desc { color: #666; font-size: 0.95em; margin-top: 5px; }
+        .case-meta { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85em; color: #888; }
+        .case-arrow { color: #667eea; font-size: 1.5em; }
+        
+        .add-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 25px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+            text-decoration: none; margin-bottom: 20px;
+        }
+        .add-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                 background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white; border-radius: 15px; padding: 30px;
+            max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.4em; color: #667eea; }
+        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #999; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #667eea; outline: none; }
+        .submit-btn {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+        
+        .no-cases { text-align: center; padding: 60px 20px; color: #999; }
+        .no-cases-icon { font-size: 4em; margin-bottom: 20px; }
+        
+        .search-box {
+            display: flex; gap: 10px; margin-bottom: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px; border-radius: 15px;
+        }
+        .search-input {
+            flex: 1; padding: 12px 20px; border: 2px solid #e0e0e0;
+            border-radius: 25px; font-size: 1em; outline: none;
+        }
+        .search-input:focus { border-color: #667eea; }
+        .search-btn {
+            padding: 12px 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 25px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+        }
+        .search-btn:hover { transform: scale(1.05); }
+        .clear-btn {
+            padding: 12px 20px; background: #6c757d; color: white;
+            border: none; border-radius: 25px; cursor: pointer;
+            text-decoration: none; font-weight: 600;
+        }
+        .search-results {
+            background: #e3f2fd; padding: 10px 20px; border-radius: 10px;
+            margin-bottom: 20px; color: #1565c0;
+        }
+        .highlight { background: #fff176; padding: 0 3px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Servis</h1>
+        <p class="subtitle">Prípadové štúdie a návody na riešenie technických problémov</p>
+        
+        <div class="nav-links">
+            <a href="/" class="nav-link">🔍 Vyhľadávanie</a>
+            <a href="/wiki" class="nav-link">📚 Wiki</a>
+            <a href="/ai-chat" class="nav-link">💬 AI Asistent</a>
+            <a href="/new-customer" class="nav-link">👤 Nový zákazník</a>
+            <a href="/customers" class="nav-link">👥 Zákazníci</a>
+        </div>
+        
+        <form class="search-box" method="GET" action="/service">
+            <input type="text" name="q" class="search-input" 
+                   placeholder="🔍 Hľadať v prípadových štúdiách (napr. VAROS, certifikát, eKasa...)"
+                   value="{{ search_query or '' }}">
+            <button type="submit" class="search-btn">Hľadať</button>
+            {% if search_query %}
+            <a href="/service" class="clear-btn">✕ Zrušiť</a>
+            {% endif %}
+        </form>
+        
+        {% if search_query %}
+        <div class="search-results">
+            🔍 Výsledky pre "<strong>{{ search_query }}</strong>": nájdených <strong>{{ cases|length }}</strong> prípadových štúdií
+        </div>
+        {% endif %}
+        
+        <button class="add-btn" onclick="openModal()">➕ Nová prípadová štúdia</button>
+        
+        <div class="case-list">
+            {% if cases %}
+                {% for case in cases %}
+                <a href="/service/{{ case.id }}" style="text-decoration: none;">
+                    <div class="case-item">
+                        <div class="case-icon">📋</div>
+                        <div class="case-info">
+                            <div class="case-title">{{ case.title }}</div>
+                            <div class="case-desc">{{ case.description[:100] }}{% if case.description|length > 100 %}...{% endif %}</div>
+                            <div class="case-meta">
+                                <span>📁 {{ case.category or 'Bez kategórie' }}</span>
+                                <span>📅 {{ case.created_at[:10] }}</span>
+                                <span>📝 {{ case.steps_count }} krokov</span>
+                            </div>
+                        </div>
+                        <div class="case-arrow">→</div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="no-cases">
+                    <div class="no-cases-icon">📋</div>
+                    <h2>Zatiaľ žiadne prípadové štúdie</h2>
+                    <p>Začnite pridaním prvej prípadovej štúdie</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">➕ Nová prípadová štúdia</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form method="POST" action="/service/add">
+                <div class="form-group">
+                    <label>Názov</label>
+                    <input type="text" name="title" required placeholder="Napr. Inštalácia certifikátov do fCHDU VAROS">
+                </div>
+                <div class="form-group">
+                    <label>Kategória</label>
+                    <select name="category">
+                        <option value="Fiškálne zariadenia">Fiškálne zariadenia</option>
+                        <option value="Software">Software</option>
+                        <option value="Hardware">Hardware</option>
+                        <option value="Sieť">Sieť</option>
+                        <option value="Iné">Iné</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea name="description" rows="4" placeholder="Stručný popis problému alebo úlohy..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Vytvoriť</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function openModal() { document.getElementById('addModal').classList.add('active'); }
+        function closeModal() { document.getElementById('addModal').classList.remove('active'); }
+        document.getElementById('addModal').onclick = function(e) { if (e.target === this) closeModal(); }
+    </script>
+</body>
+</html>
+'''
+
+# HTML šablóna pre detail prípadovej štúdie
+SERVICE_DETAIL_HTML = '''
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS-Assistant | {{ case.title }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            background: white; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px; max-width: 1000px; margin: 0 auto;
+        }
+        .back-link { color: #667eea; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 20px; }
+        .back-link:hover { color: #764ba2; }
+        h1 { color: #667eea; margin-bottom: 10px; font-size: 2em; }
+        .case-meta { color: #666; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .case-desc { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; line-height: 1.6; }
+        
+        .section-title { color: #667eea; font-size: 1.4em; margin: 30px 0 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        
+        .steps-list { margin-bottom: 30px; }
+        .step-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px; padding: 20px; margin-bottom: 15px;
+            border-left: 5px solid #28a745;
+            transition: all 0.3s;
+        }
+        .step-item.decision {
+            border-left-color: #007bff;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .step-item.branched {
+            margin-left: 30px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            padding: 0;
+            transition: all 0.4s ease-out;
+        }
+        .step-item.branched.visible {
+            opacity: 1;
+            max-height: 1000px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .step-number {
+            width: 35px; height: 35px; background: #28a745; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.1em;
+        }
+        .step-item.decision .step-number { background: #007bff; }
+        .step-title { font-weight: 600; font-size: 1.1em; color: #333; flex: 1; }
+        .step-desc { color: #555; line-height: 1.6; margin-left: 50px; }
+        .step-image { margin-top: 15px; margin-left: 50px; }
+        .step-image img { max-width: 100%; border-radius: 8px; box-shadow: 0 3px 15px rgba(0,0,0,0.15); }
+        
+        /* Vetvenie - výber možností */
+        .branch-selector {
+            margin: 15px 0 15px 50px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #007bff;
+        }
+        .branch-selector-title {
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .branch-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .branch-option {
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        .branch-option:hover {
+            transform: scale(1.05);
+        }
+        .branch-option.selected {
+            border-color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .branch-indicator {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .complications-section { background: #fff3cd; border-radius: 12px; padding: 25px; border-left: 5px solid #ffc107; }
+        .complication-group { margin-bottom: 20px; }
+        .complication-group-title { font-weight: 600; color: #856404; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .branched-comp { opacity: 0.7; transition: opacity 0.3s; }
+        .branched-comp.highlight { opacity: 1; }
+        .complication-item { background: white; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .complication-title { font-weight: 600; color: #856404; margin-bottom: 10px; }
+        .complication-desc { color: #666; margin-bottom: 10px; }
+        .complication-solution { background: #d4edda; padding: 12px; border-radius: 6px; color: #155724; }
+        .complication-solution strong { display: block; margin-bottom: 5px; }
+        
+        .add-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 20px;
+            font-weight: 600; cursor: pointer; text-decoration: none; font-size: 0.9em;
+        }
+        .add-btn:hover { transform: scale(1.05); }
+        .add-btn.warning { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: #333; }
+        .add-btn.success { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
+        .add-btn.info { background: linear-gradient(135deg, #17a2b8 0%, #007bff 100%); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                 background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white; border-radius: 15px; padding: 30px;
+            max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.3em; color: #667eea; }
+        .close-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #999; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #667eea; outline: none; }
+        .form-group.checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .form-group.checkbox-group input { width: auto; }
+        .submit-btn {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+        
+        .no-items { text-align: center; padding: 30px; color: #999; font-style: italic; }
+        
+        .color-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .color-option {
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            border: 3px solid transparent; transition: all 0.2s;
+        }
+        .color-option:hover, .color-option.selected { border-color: #333; transform: scale(1.1); }
+        
+        .step-actions {
+            display: flex; gap: 5px; margin-left: 10px;
+        }
+        .step-action-btn {
+            padding: 5px 10px; border: none; border-radius: 5px;
+            cursor: pointer; font-size: 0.8em; transition: all 0.2s;
+            opacity: 0.7;
+        }
+        .step-action-btn:hover { opacity: 1; transform: scale(1.1); }
+        .step-action-btn.edit { background: #17a2b8; color: white; }
+        .step-action-btn.delete { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/service" class="back-link">← Späť na zoznam</a>
+        
+        <h1>{{ case.title }}</h1>
+        <div class="case-meta">
+            <span>📁 {{ case.category or 'Bez kategórie' }}</span>
+            <span>📅 Vytvorené: {{ case.created_at[:10] }}</span>
+        </div>
+        
+        {% if case.description %}
+        <div class="case-desc">{{ case.description }}</div>
+        {% endif %}
+        
+        <div class="section-title">
+            📋 Postup krok za krokom
+            <button class="add-btn success" onclick="openStepModal()">➕ Pridať krok</button>
+            <button class="add-btn info" onclick="openDecisionModal()">🔀 Pridať rozhodnutie</button>
+        </div>
+        
+        <div class="steps-list" id="stepsList">
+            {% if steps %}
+                {% for step in steps %}
+                {% if not step.branch_id %}
+                <div class="step-item {% if step.is_decision %}decision{% endif %}" data-step-id="{{ step.id }}">
+                    <div class="step-header">
+                        <div class="step-number">{{ step.step_number }}</div>
+                        <div class="step-title">
+                            {{ step.title }}
+                            {% if step.is_decision %}
+                            <span class="branch-indicator" style="background: #e3f2fd; color: #007bff;">🔀 Rozhodnutie</span>
+                            {% endif %}
+                        </div>
+                        <div class="step-actions">
+                            <button class="step-action-btn edit" onclick="openEditStepModal({{ step.id }}, '{{ step.title|e }}', '{{ step.description|e }}', {{ step.is_decision }})">✏️</button>
+                            <button class="step-action-btn delete" onclick="deleteStep({{ step.id }})">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="step-desc">{{ step.description }}</div>
+                    {% if step.image_path %}
+                    <div class="step-image">
+                        <img src="/static/uploads/service/{{ step.image_path }}" alt="Obrázok ku kroku {{ step.step_number }}">
+                    </div>
+                    {% endif %}
+                    
+                    {% if step.is_decision %}
+                    <div class="branch-selector">
+                        <div class="branch-selector-title">🔀 Vyberte možnosť pre pokračovanie:</div>
+                        <div class="branch-options">
+                            {% for branch in branches if branch.parent_step_id == step.id %}
+                            <div class="branch-option" 
+                                 style="background: {{ branch.branch_color }}; color: white;"
+                                 onclick="selectBranch({{ branch.id }}, '{{ branch.branch_color }}')"
+                                 data-branch-id="{{ branch.id }}">
+                                {{ branch.branch_name }}
+                            </div>
+                            {% endfor %}
+                            <button class="add-btn" style="font-size: 0.8em; padding: 8px 15px;" onclick="openBranchModal({{ step.id }})">➕ Pridať možnosť</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Kroky patriace k vetvam tohto rozhodnutia -->
+                {% for branch in branches if branch.parent_step_id == step.id %}
+                    {% for bstep in steps if bstep.branch_id == branch.id %}
+                    <div class="step-item branched {% if bstep.is_decision %}decision{% endif %}" data-branch-id="{{ branch.id }}" style="border-left-color: {{ branch.branch_color }};">
+                        <div class="step-header">
+                            <div class="step-number" style="background: {{ branch.branch_color }};">{{ bstep.step_number }}</div>
+                            <div class="step-title">
+                                {{ bstep.title }}
+                                <span class="branch-indicator" style="background: {{ branch.branch_color }}; color: white;">{{ branch.branch_name }}</span>
+                                {% if bstep.is_decision %}
+                                <span class="branch-indicator" style="background: #e3f2fd; color: #007bff;">🔀 Rozhodnutie</span>
+                                {% endif %}
+                            </div>
+                            <div class="step-actions">
+                                <button class="step-action-btn edit" onclick="openEditStepModal({{ bstep.id }}, '{{ bstep.title|e }}', '{{ bstep.description|e }}', {{ bstep.is_decision }})">✏️</button>
+                                <button class="step-action-btn delete" onclick="deleteStep({{ bstep.id }})">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="step-desc">{{ bstep.description }}</div>
+                        {% if bstep.image_path %}
+                        <div class="step-image">
+                            <img src="/static/uploads/service/{{ bstep.image_path }}" alt="Obrázok ku kroku {{ bstep.step_number }}">
+                        </div>
+                        {% endif %}
+                        
+                        {% if bstep.is_decision %}
+                        <div class="branch-selector">
+                            <div class="branch-selector-title">🔀 Vyberte možnosť pre pokračovanie:</div>
+                            <div class="branch-options">
+                                {% for subbranch in branches if subbranch.parent_step_id == bstep.id %}
+                                <div class="branch-option" 
+                                     style="background: {{ subbranch.branch_color }}; color: white;"
+                                     onclick="selectBranch({{ subbranch.id }}, '{{ subbranch.branch_color }}')"
+                                     data-branch-id="{{ subbranch.id }}">
+                                    {{ subbranch.branch_name }}
+                                </div>
+                                {% endfor %}
+                                <button class="add-btn" style="font-size: 0.8em; padding: 8px 15px;" onclick="openBranchModal({{ bstep.id }})">➕ Pridať možnosť</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Vnorené kroky pre sub-vetvy -->
+                    {% if bstep.is_decision %}
+                    {% for subbranch in branches if subbranch.parent_step_id == bstep.id %}
+                        {% for substep in steps if substep.branch_id == subbranch.id %}
+                        <div class="step-item branched" data-branch-id="{{ subbranch.id }}" style="border-left-color: {{ subbranch.branch_color }}; margin-left: 60px;">
+                            <div class="step-header">
+                                <div class="step-number" style="background: {{ subbranch.branch_color }};">{{ substep.step_number }}</div>
+                                <div class="step-title">
+                                    {{ substep.title }}
+                                    <span class="branch-indicator" style="background: {{ subbranch.branch_color }}; color: white;">{{ subbranch.branch_name }}</span>
+                                </div>
+                            </div>
+                            <div class="step-desc">{{ substep.description }}</div>
+                            {% if substep.image_path %}
+                            <div class="step-image">
+                                <img src="/static/uploads/service/{{ substep.image_path }}" alt="Obrázok ku kroku {{ substep.step_number }}">
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="no-items">Zatiaľ žiadne kroky. Pridajte prvý krok postupu.</div>
+            {% endif %}
+        </div>
+        
+        <div class="section-title">
+            ⚠️ Možné komplikácie
+            <button class="add-btn warning" onclick="openCompModal()">➕ Pridať komplikáciu</button>
+        </div>
+        
+        <div class="complications-section">
+            {% set general_comps = complications|selectattr('branch_id', 'none')|list %}
+            {% if general_comps %}
+            <div class="complication-group">
+                <div class="complication-group-title">📋 Všeobecné komplikácie</div>
+                {% for comp in general_comps %}
+                <div class="complication-item">
+                    <div class="complication-title">{{ comp.title }}</div>
+                    <div class="complication-desc">{{ comp.description }}</div>
+                    {% if comp.solution %}
+                    <div class="complication-solution">
+                        <strong>💡 Riešenie:</strong>
+                        {{ comp.solution }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% for branch in branches %}
+            {% set branch_comps = complications|selectattr('branch_id', 'equalto', branch.id)|list %}
+            {% if branch_comps %}
+            <div class="complication-group branched-comp" data-branch-id="{{ branch.id }}">
+                <div class="complication-group-title" style="border-left: 4px solid {{ branch.branch_color }}; padding-left: 10px;">
+                    <span class="branch-indicator" style="background: {{ branch.branch_color }}; color: white;">{{ branch.branch_name }}</span>
+                    Komplikácie
+                </div>
+                {% for comp in branch_comps %}
+                <div class="complication-item" style="border-left: 3px solid {{ branch.branch_color }};">
+                    <div class="complication-title">{{ comp.title }}</div>
+                    <div class="complication-desc">{{ comp.description }}</div>
+                    {% if comp.solution %}
+                    <div class="complication-solution">
+                        <strong>💡 Riešenie:</strong>
+                        {{ comp.solution }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endfor %}
+            
+            {% if not complications %}
+                <div class="no-items" style="color: #856404;">Zatiaľ žiadne zaznamenané komplikácie.</div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Modal pre pridanie kroku -->
+    <div class="modal" id="stepModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">➕ Pridať krok</h2>
+                <button class="close-btn" onclick="closeStepModal()">&times;</button>
+            </div>
+            <form method="POST" action="/service/{{ case.id }}/add-step" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Patrí k vetve (voliteľné)</label>
+                    <select name="branch_id" id="stepBranchSelect">
+                        <option value="">-- Hlavná vetva --</option>
+                        {% for branch in branches %}
+                        {% if branch.parent_branch_name %}
+                        <option value="{{ branch.id }}">&nbsp;&nbsp;&nbsp;└─ {{ branch.branch_name }} ({{ branch.parent_branch_name }})</option>
+                        {% else %}
+                        <option value="{{ branch.id }}">🔀 {{ branch.branch_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <small style="color: #28a745; margin-top: 5px; display: block;">📌 Číslovanie sa nastaví automaticky podľa zvolenej vetvy</small>
+                </div>
+                <div class="form-group">
+                    <label>Názov kroku</label>
+                    <input type="text" name="title" required placeholder="Napr. Otvorte nastavenia zariadenia">
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea name="description" rows="4" placeholder="Detailný popis čo treba urobiť..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Obrázok (voliteľné)</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+                <button type="submit" class="submit-btn">Pridať krok</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pre pridanie rozhodovacieho kroku -->
+    <div class="modal" id="decisionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔀 Pridať rozhodovací bod</h2>
+                <button class="close-btn" onclick="closeDecisionModal()">&times;</button>
+            </div>
+            <form method="POST" action="/service/{{ case.id }}/add-decision">
+                <div class="form-group">
+                    <label>Patrí k vetve (voliteľné)</label>
+                    <select name="branch_id">
+                        <option value="">-- Hlavná vetva --</option>
+                        {% for branch in branches %}
+                        {% if branch.parent_branch_name %}
+                        <option value="{{ branch.id }}">&nbsp;&nbsp;&nbsp;└─ {{ branch.branch_name }} ({{ branch.parent_branch_name }})</option>
+                        {% else %}
+                        <option value="{{ branch.id }}">🔀 {{ branch.branch_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <small style="color: #28a745; margin-top: 5px; display: block;">📌 Číslovanie sa nastaví automaticky podľa zvolenej vetvy</small>
+                </div>
+                <div class="form-group">
+                    <label>Otázka / Názov rozhodnutia</label>
+                    <input type="text" name="title" required placeholder="Napr. Aký typ eKasy používate?">
+                </div>
+                <div class="form-group">
+                    <label>Popis (čo má používateľ zistiť)</label>
+                    <textarea name="description" rows="3" placeholder="Napr. Zistite typ eKasy podľa štítku na zariadení..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Pridať rozhodnutie</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pre pridanie vetvy/možnosti -->
+    <div class="modal" id="branchModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">➕ Pridať možnosť</h2>
+                <button class="close-btn" onclick="closeBranchModal()">&times;</button>
+            </div>
+            <form method="POST" action="/service/{{ case.id }}/add-branch" id="branchForm">
+                <input type="hidden" name="parent_step_id" id="branchParentStep">
+                <div class="form-group">
+                    <label>Názov možnosti</label>
+                    <input type="text" name="branch_name" required placeholder="Napr. eKasa VAROS">
+                </div>
+                <div class="form-group">
+                    <label>Farba vetvy</label>
+                    <div class="color-picker">
+                        <div class="color-option selected" style="background: #28a745;" onclick="selectColor(this, '#28a745')"></div>
+                        <div class="color-option" style="background: #007bff;" onclick="selectColor(this, '#007bff')"></div>
+                        <div class="color-option" style="background: #dc3545;" onclick="selectColor(this, '#dc3545')"></div>
+                        <div class="color-option" style="background: #ffc107;" onclick="selectColor(this, '#ffc107')"></div>
+                        <div class="color-option" style="background: #17a2b8;" onclick="selectColor(this, '#17a2b8')"></div>
+                        <div class="color-option" style="background: #6f42c1;" onclick="selectColor(this, '#6f42c1')"></div>
+                        <div class="color-option" style="background: #fd7e14;" onclick="selectColor(this, '#fd7e14')"></div>
+                        <div class="color-option" style="background: #20c997;" onclick="selectColor(this, '#20c997')"></div>
+                    </div>
+                    <input type="hidden" name="branch_color" id="branchColor" value="#28a745">
+                </div>
+                <button type="submit" class="submit-btn">Pridať možnosť</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pre pridanie komplikácie -->
+    <div class="modal" id="compModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">⚠️ Pridať komplikáciu</h2>
+                <button class="close-btn" onclick="closeCompModal()">&times;</button>
+            </div>
+            <form method="POST" action="/service/{{ case.id }}/add-complication">
+                <div class="form-group">
+                    <label>Názov problému</label>
+                    <input type="text" name="title" required placeholder="Napr. Certifikát sa nenačíta">
+                </div>
+                <div class="form-group">
+                    <label>Popis problému</label>
+                    <textarea name="description" rows="3" placeholder="Kedy a ako sa problém prejavuje..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Riešenie</label>
+                    <textarea name="solution" rows="4" placeholder="Ako sa problém rieši..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Platí pre vetvu (voliteľné)</label>
+                    <select name="branch_id">
+                        <option value="">📋 Všeobecná komplikácia</option>
+                        {% for branch in branches %}
+                        {% if branch.parent_branch_name %}
+                        <option value="{{ branch.id }}">&nbsp;&nbsp;&nbsp;└─ {{ branch.branch_name }} ({{ branch.parent_branch_name }})</option>
+                        {% else %}
+                        <option value="{{ branch.id }}">🔀 {{ branch.branch_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <small style="color: #666; margin-top: 5px; display: block;">Ak je komplikácia špecifická pre určitý typ zariadenia, vyberte príslušnú vetvu.</small>
+                </div>
+                <button type="submit" class="submit-btn">Pridať komplikáciu</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pre editáciu kroku -->
+    <div class="modal" id="editStepModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">✏️ Upraviť krok</h2>
+                <button class="close-btn" onclick="closeEditStepModal()">&times;</button>
+            </div>
+            <form method="POST" action="" id="editStepForm">
+                <input type="hidden" name="step_id" id="editStepId">
+                <div class="form-group">
+                    <label>Názov</label>
+                    <input type="text" name="title" id="editStepTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea name="description" id="editStepDesc" rows="4"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="submit-btn" style="flex: 1;">💾 Uložiť zmeny</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        let selectedBranchId = null;
+        
+        function openStepModal() { document.getElementById('stepModal').classList.add('active'); }
+        function closeStepModal() { document.getElementById('stepModal').classList.remove('active'); }
+        function openDecisionModal() { document.getElementById('decisionModal').classList.add('active'); }
+        function closeDecisionModal() { document.getElementById('decisionModal').classList.remove('active'); }
+        function openCompModal() { document.getElementById('compModal').classList.add('active'); }
+        function closeCompModal() { document.getElementById('compModal').classList.remove('active'); }
+        function openBranchModal(stepId) { 
+            document.getElementById('branchParentStep').value = stepId;
+            document.getElementById('branchModal').classList.add('active'); 
+        }
+        function closeBranchModal() { document.getElementById('branchModal').classList.remove('active'); }
+        
+        function selectColor(el, color) {
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('branchColor').value = color;
+        }
+        
+        function selectBranch(branchId, color) {
+            // Odznač všetky možnosti
+            document.querySelectorAll('.branch-option').forEach(o => o.classList.remove('selected'));
+            // Označ vybranú
+            document.querySelector('[data-branch-id="' + branchId + '"]').classList.add('selected');
+            
+            // Skry všetky vetvy krokov
+            document.querySelectorAll('.step-item.branched').forEach(s => s.classList.remove('visible'));
+            
+            // Zobraz kroky patriace k vybranej vetve
+            document.querySelectorAll('.step-item.branched[data-branch-id="' + branchId + '"]').forEach(s => {
+                s.classList.add('visible');
+            });
+            
+            // Zvýrazni komplikácie patriace k vybranej vetve
+            document.querySelectorAll('.branched-comp').forEach(c => c.classList.remove('highlight'));
+            document.querySelectorAll('.branched-comp[data-branch-id="' + branchId + '"]').forEach(c => {
+                c.classList.add('highlight');
+            });
+            
+            selectedBranchId = branchId;
+        }
+        
+        // Editácia kroku
+        function openEditStepModal(stepId, title, description, isDecision) {
+            document.getElementById('editStepId').value = stepId;
+            document.getElementById('editStepTitle').value = title;
+            document.getElementById('editStepDesc').value = description;
+            document.getElementById('editStepForm').action = '/service/{{ case.id }}/edit-step/' + stepId;
+            document.querySelector('#editStepModal .modal-title').textContent = isDecision ? '✏️ Upraviť rozhodnutie' : '✏️ Upraviť krok';
+            document.getElementById('editStepModal').classList.add('active');
+        }
+        function closeEditStepModal() { document.getElementById('editStepModal').classList.remove('active'); }
+        
+        // Mazanie kroku
+        function deleteStep(stepId) {
+            if (confirm('Naozaj chcete zmazať tento krok? Táto akcia sa nedá vrátiť späť.')) {
+                window.location.href = '/service/{{ case.id }}/delete-step/' + stepId;
+            }
+        }
+        
+        // Zatvor modály kliknutím mimo
+        document.querySelectorAll('.modal').forEach(m => {
+            m.onclick = function(e) { if (e.target === this) this.classList.remove('active'); }
+        });
+    </script>
 </body>
 </html>
 '''
@@ -2600,6 +3424,255 @@ def customers():
         customers_list.append(cust_dict)
     
     return render_template_string(CUSTOMERS_HTML, customers=customers_list)
+
+# ============ SERVIS ROUTES ============
+
+@app.route('/service')
+def service():
+    """Zoznam prípadových štúdií s vyhľadávaním."""
+    import sqlite3
+    
+    search_query = request.args.get('q', '').strip()
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        if search_query:
+            # Vyhľadávanie vo všetkých relevantných tabuľkách
+            search_term = f'%{search_query}%'
+            c.execute('''
+                SELECT DISTINCT sc.*, 
+                       (SELECT COUNT(*) FROM service_steps WHERE case_id = sc.id) as steps_count
+                FROM service_cases sc
+                LEFT JOIN service_steps ss ON ss.case_id = sc.id
+                LEFT JOIN service_complications sco ON sco.case_id = sc.id
+                LEFT JOIN service_branches sb ON sb.case_id = sc.id
+                WHERE sc.title LIKE ? 
+                   OR sc.description LIKE ? 
+                   OR sc.category LIKE ?
+                   OR ss.title LIKE ?
+                   OR ss.description LIKE ?
+                   OR sco.title LIKE ?
+                   OR sco.description LIKE ?
+                   OR sco.solution LIKE ?
+                   OR sb.branch_name LIKE ?
+                ORDER BY sc.created_at DESC
+            ''', (search_term,) * 9)
+        else:
+            c.execute('''
+                SELECT sc.*, 
+                       (SELECT COUNT(*) FROM service_steps WHERE case_id = sc.id) as steps_count
+                FROM service_cases sc
+                ORDER BY sc.created_at DESC
+            ''')
+        
+        cases = [dict(row) for row in c.fetchall()]
+    
+    return render_template_string(SERVICE_HTML, cases=cases, search_query=search_query)
+
+@app.route('/service/add', methods=['POST'])
+def service_add():
+    """Pridanie novej prípadovej štúdie."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    category = request.form.get('category', '').strip()
+    description = request.form.get('description', '').strip()
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                INSERT INTO service_cases (title, category, description)
+                VALUES (?, ?, ?)
+            ''', (title, category, description))
+            case_id = c.lastrowid
+        return redirect(f'/service/{case_id}')
+    
+    return redirect('/service')
+
+@app.route('/service/<int:case_id>')
+def service_detail(case_id):
+    """Detail prípadovej štúdie."""
+    import sqlite3
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        
+        # Načítaj prípad
+        c.execute('SELECT * FROM service_cases WHERE id = ?', (case_id,))
+        case = c.fetchone()
+        if not case:
+            return redirect('/service')
+        case = dict(case)
+        
+        # Načítaj kroky
+        c.execute('SELECT * FROM service_steps WHERE case_id = ? ORDER BY step_number', (case_id,))
+        steps = [dict(row) for row in c.fetchall()]
+        
+        # Načítaj komplikácie
+        c.execute('SELECT * FROM service_complications WHERE case_id = ? ORDER BY id', (case_id,))
+        complications = [dict(row) for row in c.fetchall()]
+        
+        # Načítaj vetvy (branches) pre vetvenie - s informáciou o rodičoch
+        c.execute('''
+            SELECT sb.*, 
+                   ss.title as parent_step_title,
+                   parent_branch.branch_name as parent_branch_name
+            FROM service_branches sb
+            LEFT JOIN service_steps ss ON ss.id = sb.parent_step_id
+            LEFT JOIN service_branches parent_branch ON ss.branch_id = parent_branch.id
+            WHERE sb.case_id = ? 
+            ORDER BY sb.display_order
+        ''', (case_id,))
+        branches = [dict(row) for row in c.fetchall()]
+    
+    return render_template_string(SERVICE_DETAIL_HTML, case=case, steps=steps, complications=complications, branches=branches)
+
+@app.route('/service/<int:case_id>/add-step', methods=['POST'])
+def service_add_step(case_id):
+    """Pridanie kroku do prípadovej štúdie."""
+    import sqlite3
+    import os
+    from werkzeug.utils import secure_filename
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    branch_id = request.form.get('branch_id', '').strip()
+    branch_id = int(branch_id) if branch_id else None
+    
+    image_path = None
+    if 'image' in request.files:
+        file = request.files['image']
+        if file and file.filename:
+            filename = secure_filename(f"case{case_id}_step_{file.filename}")
+            upload_folder = os.path.join('static', 'uploads', 'service')
+            os.makedirs(upload_folder, exist_ok=True)
+            file.save(os.path.join(upload_folder, filename))
+            image_path = filename
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            # Automatické číslovanie podľa vetvy
+            if branch_id:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM service_steps WHERE case_id = ? AND branch_id = ?', (case_id, branch_id))
+            else:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM service_steps WHERE case_id = ? AND branch_id IS NULL', (case_id,))
+            step_number = c.fetchone()[0]
+            
+            c.execute('''
+                INSERT INTO service_steps (case_id, step_number, title, description, image_path, branch_id, is_decision)
+                VALUES (?, ?, ?, ?, ?, ?, 0)
+            ''', (case_id, step_number, title, description, image_path, branch_id))
+    
+    return redirect(f'/service/{case_id}')
+
+@app.route('/service/<int:case_id>/add-decision', methods=['POST'])
+def service_add_decision(case_id):
+    """Pridanie rozhodovacieho bodu do prípadovej štúdie."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    branch_id = request.form.get('branch_id', '').strip()
+    branch_id = int(branch_id) if branch_id else None
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            # Automatické číslovanie podľa vetvy
+            if branch_id:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM service_steps WHERE case_id = ? AND branch_id = ?', (case_id, branch_id))
+            else:
+                c.execute('SELECT COALESCE(MAX(step_number), 0) + 1 FROM service_steps WHERE case_id = ? AND branch_id IS NULL', (case_id,))
+            step_number = c.fetchone()[0]
+            
+            c.execute('''
+                INSERT INTO service_steps (case_id, step_number, title, description, is_decision, branch_id)
+                VALUES (?, ?, ?, ?, 1, ?)
+            ''', (case_id, step_number, title, description, branch_id))
+    
+    return redirect(f'/service/{case_id}')
+
+@app.route('/service/<int:case_id>/add-branch', methods=['POST'])
+def service_add_branch(case_id):
+    """Pridanie vetvy/možnosti k rozhodnutiu."""
+    import sqlite3
+    
+    parent_step_id = request.form.get('parent_step_id', type=int)
+    branch_name = request.form.get('branch_name', '').strip()
+    branch_color = request.form.get('branch_color', '#28a745').strip()
+    
+    if branch_name and parent_step_id:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            # Zisti poradie
+            c.execute('SELECT COALESCE(MAX(display_order), 0) + 1 FROM service_branches WHERE case_id = ?', (case_id,))
+            order = c.fetchone()[0]
+            
+            c.execute('''
+                INSERT INTO service_branches (case_id, parent_step_id, branch_name, branch_color, display_order)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (case_id, parent_step_id, branch_name, branch_color, order))
+    
+    return redirect(f'/service/{case_id}')
+
+@app.route('/service/<int:case_id>/add-complication', methods=['POST'])
+def service_add_complication(case_id):
+    """Pridanie komplikácie do prípadovej štúdie."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    solution = request.form.get('solution', '').strip()
+    branch_id = request.form.get('branch_id', '').strip()
+    branch_id = int(branch_id) if branch_id else None
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                INSERT INTO service_complications (case_id, title, description, solution, branch_id)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (case_id, title, description, solution, branch_id))
+    
+    return redirect(f'/service/{case_id}')
+
+@app.route('/service/<int:case_id>/edit-step/<int:step_id>', methods=['POST'])
+def service_edit_step(case_id, step_id):
+    """Editácia kroku v prípadovej štúdii."""
+    import sqlite3
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
+    
+    if title:
+        with sqlite3.connect('database/is_data.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                UPDATE service_steps 
+                SET title = ?, description = ?
+                WHERE id = ? AND case_id = ?
+            ''', (title, description, step_id, case_id))
+    
+    return redirect(f'/service/{case_id}')
+
+@app.route('/service/<int:case_id>/delete-step/<int:step_id>')
+def service_delete_step(case_id, step_id):
+    """Zmazanie kroku z prípadovej štúdie."""
+    import sqlite3
+    
+    with sqlite3.connect('database/is_data.db') as conn:
+        c = conn.cursor()
+        # Najprv zmaž všetky vetvy ktoré majú tento krok ako rodiča
+        c.execute('DELETE FROM service_branches WHERE parent_step_id = ?', (step_id,))
+        # Potom zmaž samotný krok
+        c.execute('DELETE FROM service_steps WHERE id = ? AND case_id = ?', (step_id, case_id))
+    
+    return redirect(f'/service/{case_id}')
 
 @app.route('/favicon.ico')
 def favicon():
